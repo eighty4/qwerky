@@ -1,0 +1,10 @@
+{
+  "name": "qwerky",
+  "version": "0.0.1",
+  "license": "BSD-2-Clause",
+  "bin": "qwerky.bin.js",
+  "dependencies": {
+    "qwerky-api": "0.0.1",
+    "qwerky-ui": "0.0.1"
+  }
+}
