@@ -45,3 +45,18 @@ body
     visibility visible
     opacity 1
     transform opacity 200ms
+
+#page-frame
+  background white
+  position fixed
+  top 5%
+  left 5%
+  height 90%
+  width 90%
+  border none
+  pointer-events none
+  opacity 0
+
+  &.visible
+    opacity 1
+    transition opacity 100ms

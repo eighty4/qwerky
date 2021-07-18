@@ -26,9 +26,10 @@ function sendWsMessage(type, msg) {
     ws.send(JSON.stringify(msg))
 }
 
-let pageImageElement
+let pageImageElement, iframe
 
 function showPage(id, image, {width, height}) {
+    document.body.removeChild(iframe)
     pageImageElement = document.createElement('img')
     pageImageElement.src = 'data:image/png;base64,' + image
     pageImageElement.classList.add('page-image')
@@ -42,12 +43,18 @@ function handlePageClick(e) {
     inspectPoint({x: e.clientX, y: e.clientY})
 }
 
+function openPageWithPlaywright(url) {
+    const {height, width} = iframe
+    sendWsMessage('open', {url, height, width})
+}
+
 function openPage(url) {
     if (pageImageElement) {
         pageImageElement.removeEventListener('click', handlePageClick)
     }
     id = v4()
-    sendWsMessage('open', {url})
+    showIframePreviewWhileLoading(url)
+    openPageWithPlaywright(url)
 }
 
 window.inspectSelector = selector => sendWsMessage('inspect', {selector})
@@ -72,3 +79,18 @@ window.showAppBox = function showAppBox() {
 }
 
 setTimeout(showAppBox, 300)
+
+function showIframePreviewWhileLoading(url) {
+    iframe = document.createElement('iframe')
+    iframe.id = 'page-frame'
+    iframe.src = url
+    iframe.sandbox = []
+    iframe.onload = () => {
+        console.log('iframe loaded')
+        iframe.classList.add('visible')
+    }
+    iframe.addEventListener('transitionstart', console.log.bind(null, 'transitionstart'))
+    iframe.addEventListener('transitionrun', console.log.bind(null, 'transitionrun'))
+    iframe.addEventListener('transitionend', console.log.bind(null, 'transitionend'))
+    document.body.appendChild(iframe)
+}

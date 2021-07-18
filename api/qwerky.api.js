@@ -180,7 +180,8 @@ const requestListener = () => {
                 path: req.url,
             }, proxyResponse => {
                 console.log('ui proxy', req.method, req.url, proxyResponse.statusCode)
-                Object.keys(proxyResponse.headers).forEach(headerName => res.setHeader(headerName, proxyResponse.headers[headerName]))
+                Object.keys(proxyResponse.headers)
+                    .forEach(headerName => res.setHeader(headerName, proxyResponse.headers[headerName]))
                 res.flushHeaders()
                 proxyResponse.on('data', (chunk) => res.write(chunk))
                 proxyResponse.resume()
@@ -188,7 +189,9 @@ const requestListener = () => {
             proxyRequest.end()
             proxyRequest.on('error', e => {
                 if (e.code === 'ECONNREFUSED') {
-                    console.log(`\n${e.code} error proxying qwerky ui request to http://${e.address}/${e.port} in dev mode\nIs qwerty ui:dev running?\n`)
+                    console.log(
+                        `\n${e.code} error proxying ui request to http://${e.address}/${e.port} in dev mode`,
+                        '\nIs qwerty ui:dev running?\n')
                 } else {
                     console.log(`\n${e}\n`)
                 }
