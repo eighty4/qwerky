@@ -1,0 +1,68 @@
+# todo create bin module that runs api and ui locally
+# todo hosted stack ui and api that saves playbooks and results to db
+# todo `npx qwerky` runs api/ui to compose and save interactively built playbooks
+# todo `npx qwerky` api/ui instance can run an in-progress or saved playbook and display results
+# todo `npx qwerky filename.qwerky` runs playbook and writes result to disk
+# todo running playbook takes screenshots during each exec step
+# todo local disk json results link to screenshots with file urls
+# todo local ui results serve screenshots from filesystem
+# todo hosted ui saves and serves results from database or cloud storage
+
+# playbook commands example:
+
+# navigate to page
+GOTO http://google.com
+
+# pause playbook for specified ms
+WAIT 1000
+
+# dom event prepending element selector
+CLICK .dom-element-selector
+DBLCLICK .dom-element-selector
+
+# define selected dom element to extract model object from keyed by modelName
+SELECT .repeated-container-selector modelName
+
+    # element to click for navigating and selecting across paginated data
+    PAGE .next
+
+    # set innerText value of selector to fieldName field of model
+    SET .some-data-selector fieldName
+    SET .another-data-selector anotherFieldName
+    SET .another-data-selector nested.field
+
+# playbook result json:
+
+{
+    "playback": [{
+        "command": "OPEN url",
+        "screenshot": "file://screenshot.png"
+    }, {
+        "command": "CLICK .dom-element-selector",
+        "screenshot": "file://screenshot.png"
+    }, {
+        "command": "DBLCLICK .dom-element-selector",
+        "screenshot": "file://screenshot.png"
+    }, {
+        "command": "DBLCLICK .dom-element-selector",
+        "screenshot": "file://screenshot.png"
+    }, {
+        "command": "SELECT .repeated-container-selector modelName",
+        "screenshot": "file://screenshot.png"
+    }],
+    "started": "timestamp",
+    "finished": "timestamp",
+    "selected": {
+        "modelName": [{
+            "data": {
+                "fieldName": "text",
+                "anotherFieldName": "text",
+                "nested": {
+                    "field": "text"
+                }
+            },
+            "screenshot": "file://screenshot.png",
+            "url": "url model object was selected from"
+        }]
+    }
+}
