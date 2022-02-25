@@ -3,14 +3,15 @@
   "version": "0.0.1",
   "license": "BSD-2-Clause",
   "scripts": {
-    "dev": "nodemon qwerky.api.js"
+    "dev": "nodemon -r dotenv/config qwerky.api.js dotenv_config_path=./dev.env"
   },
   "dependencies": {
-    "playwright": "1.12.3",
+    "playwright": "1.19.2",
     "qwerky-ui": "0.0.1",
-    "ws": "7.5.0"
+    "ws": "8.5.0"
   },
   "devDependencies": {
-    "nodemon": "2.0.7"
+    "dotenv": "16.0.0",
+    "nodemon": "2.0.15"
   }
 }
