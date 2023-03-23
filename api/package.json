@@ -1,7 +1,7 @@
 {
   "name": "qwerky-api",
   "version": "0.0.1",
-  "license": "BSD-2-Clause",
+  "license": "MIT",
   "scripts": {
     "dev": "nodemon -r dotenv/config qwerky.api.js dotenv_config_path=./dev.env"
   },

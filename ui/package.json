@@ -1,7 +1,7 @@
 {
   "name": "qwerky-ui",
   "version": "0.0.1",
-  "license": "BSD-2-Clause",
+  "license": "MIT",
   "scripts": {
     "build": "webpack --mode=production",
     "dev": "webpack serve"

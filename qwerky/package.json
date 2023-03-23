@@ -1,7 +1,7 @@
 {
   "name": "qwerky",
   "version": "0.0.1",
-  "license": "BSD-2-Clause",
+  "license": "MIT",
   "bin": "qwerky.bin.js",
   "dependencies": {
     "qwerky-api": "0.0.1",
