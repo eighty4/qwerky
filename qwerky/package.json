@@ -2,9 +2,18 @@
   "name": "qwerky",
   "version": "0.0.1",
   "license": "MIT",
-  "bin": "qwerky.bin.js",
+  "bin": "lib/Qwerky.js",
+  "scripts": {
+    "build": "tsc --build",
+    "dev": "nodemon lib/Qwerky.ts"
+  },
   "dependencies": {
-    "qwerky-api": "0.0.1",
-    "qwerky-ui": "0.0.1"
+    "qwerky-api": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^18.15.5",
+    "nodemon": "^2.0.22",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.2"
   }
 }

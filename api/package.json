@@ -2,8 +2,10 @@
   "name": "qwerky-api",
   "version": "0.0.1",
   "license": "MIT",
+  "exports": "./lib/exports.ts",
+  "types": "./lib/exports.d.ts",
   "scripts": {
-    "dev": "nodemon -r dotenv/config qwerky.api.js dotenv_config_path=./dev.env"
+    "build": "tsc --build"
   },
   "dependencies": {
     "playwright": "1.32.0",
@@ -11,7 +13,9 @@
     "ws": "8.13.0"
   },
   "devDependencies": {
+    "@types/node": "^18.15.5",
+    "@types/ws": "^8.5.4",
     "dotenv": "16.0.3",
-    "nodemon": "2.0.22"
+    "typescript": "^5.0.2"
   }
 }
