@@ -6,12 +6,12 @@
     "dev": "nodemon -r dotenv/config qwerky.api.js dotenv_config_path=./dev.env"
   },
   "dependencies": {
-    "playwright": "1.29.1",
+    "playwright": "1.32.0",
     "qwerky-ui": "0.0.1",
-    "ws": "8.11.0"
+    "ws": "8.13.0"
   },
   "devDependencies": {
     "dotenv": "16.0.3",
-    "nodemon": "2.0.20"
+    "nodemon": "2.0.22"
   }
 }
