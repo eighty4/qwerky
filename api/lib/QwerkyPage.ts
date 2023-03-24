@@ -1,5 +1,5 @@
 import type {Page} from 'playwright'
-import {Element, InspectPointData, InspectSelectorData, PageOpenedData, Point, Size} from 'qwerky-contract'
+import {Element, InspectPointData, InspectSelectorData, PageOpenedData, Point} from 'qwerky-contract'
 
 export class QwerkyPage {
     private readonly id: any
@@ -25,13 +25,19 @@ export class QwerkyPage {
             // @ts-ignore
             const element = document.elementFromPoint(1, 1)
             if (element) {
-                const classes: Array<string> = []
-                element.classList.forEach(c => classes.push(c))
-                const size = new Size(element.clientHeight, element.clientWidth)
                 const boundingClientRect = element.getBoundingClientRect()
                 // @ts-ignore
-                const position = new Point(boundingClientRect.left + window.scrollX, boundingClientRect.top + window.scrollY)
-                return new Element(element.id, classes, element.textContent, size, position)
+                const {scrollX, scrollY} = window
+                return {
+                    id: element.id,
+                    classes: [...element.classList],
+                    text: element.textContent,
+                    size: {height: element.clientHeight, width: element.clientWidth},
+                    position: {
+                        x: boundingClientRect.left + scrollX,
+                        y: boundingClientRect.top + scrollY,
+                    },
+                }
             } else {
                 throw new Error(`did not find element at ${point.x}, ${point.y}`)
             }
