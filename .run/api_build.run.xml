@@ -1,14 +1,12 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="api:dev (proxy dev ui)" type="js.build_tools.npm">
+  <configuration default="false" name="api:build" type="js.build_tools.npm">
     <package-json value="$PROJECT_DIR$/api/package.json" />
     <command value="run" />
     <scripts>
-      <script value="dev" />
+      <script value="build" />
     </scripts>
     <node-interpreter value="project" />
-    <envs>
-      <env name="QWERKY_UI" value="dev" />
-    </envs>
+    <envs />
     <method v="2" />
   </configuration>
 </component>
