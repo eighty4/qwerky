@@ -14,12 +14,10 @@ importers:
       '@types/ws': ^8.5.4
       dotenv: 16.0.3
       playwright: 1.32.0
-      qwerky-ui: 0.0.1
       typescript: ^5.0.2
       ws: 8.13.0
     dependencies:
       playwright: 1.32.0
-      qwerky-ui: link:../ui
       ws: 8.13.0
     devDependencies:
       '@types/node': 18.15.5
