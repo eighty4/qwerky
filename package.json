@@ -1,6 +1,6 @@
 {
   "name": "qwerky-root",
-  "license": "BSD-2-Clause",
+  "license": "MIT",
   "npmClient": "",
   "private": true,
   "scripts": {
