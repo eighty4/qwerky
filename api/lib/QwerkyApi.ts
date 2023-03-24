@@ -1,9 +1,9 @@
 import http, {type IncomingMessage, RequestListener} from 'http'
 import {type Socket} from 'net'
 import {type Browser, chromium} from 'playwright'
-import {Server as WebSocketServer, type WebSocket} from 'ws'
+import WebSocket, {WebSocketServer} from 'ws'
 import {type ApiRequest, type ApiResponse, InspectPoint, InspectSelector} from 'qwerky-contract'
-import {QwerkyPage} from './QwerkyPage'
+import {QwerkyPage} from './QwerkyPage.js'
 
 export interface QwerkyApiOpts {
     port?: number

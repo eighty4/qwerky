@@ -1,1 +1,1 @@
-export * from './QwerkyMessages'
+export * from './QwerkyMessages.js'

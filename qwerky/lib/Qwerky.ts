@@ -1,5 +1,5 @@
 import {installPlaywrightBrowsers, QwerkyApi} from 'qwerky-api'
-import {devModeProxy, serveBuiltFiles} from './FrontendRequestListener'
+import {devModeProxy, serveBuiltFiles} from './FrontendRequestListener.js'
 
 installPlaywrightBrowsers().then(startQwerkyApi)
 

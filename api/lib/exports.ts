@@ -1,2 +1,2 @@
-export {installPlaywrightBrowsers} from './PlaywrightInitialize'
-export {QwerkyApi} from './QwerkyApi'
+export {installPlaywrightBrowsers} from './PlaywrightInitialize.js'
+export {QwerkyApi} from './QwerkyApi.js'

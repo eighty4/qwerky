@@ -2,7 +2,8 @@
   "name": "qwerky-contract",
   "version": "0.0.1",
   "license": "MIT",
-  "exports": "./lib/exports.ts",
+  "type": "module",
+  "exports": "./lib/exports.js",
   "types": "./lib/exports.d.ts",
   "scripts": {
     "build": "tsc --build"

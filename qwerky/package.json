@@ -2,10 +2,11 @@
   "name": "qwerky",
   "version": "0.0.1",
   "license": "MIT",
+  "type": "module",
   "bin": "lib/Qwerky.js",
   "scripts": {
     "build": "tsc --build",
-    "dev": "nodemon lib/Qwerky.ts"
+    "dev": "nodemon --watch './lib/*.ts' --exec 'ts-node --esm lib/Qwerky.ts'"
   },
   "dependencies": {
     "qwerky-api": "workspace:*"

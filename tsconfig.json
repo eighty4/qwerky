@@ -3,7 +3,7 @@
     "lib/*.ts"
   ],
   "compilerOptions": {
-    "module": "CommonJS",
+    "module": "ESNext",
     "moduleResolution": "Node",
     "target": "ES2021",
     "lib": [
