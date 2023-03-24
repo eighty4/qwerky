@@ -6,6 +6,7 @@
   "bin": "lib/Qwerky.js",
   "scripts": {
     "build": "tsc --build",
+    "predev": "pnpm run -w clean",
     "dev": "nodemon --watch './lib/*.ts' --exec 'ts-node --esm lib/Qwerky.ts'"
   },
   "dependencies": {

@@ -4,7 +4,8 @@
   "npmClient": "",
   "private": true,
   "scripts": {
-    "build": "copyfiles LICENSE api; copyfiles LICENSE contract; copyfiles LICENSE qwerky; copyfiles LICENSE ui"
+    "build": "copyfiles LICENSE api; copyfiles LICENSE contract; copyfiles LICENSE qwerky; copyfiles LICENSE ui",
+    "clean": "rimraf */lib/*.{d.ts,js}"
   },
   "workspaces": [
     "api",
@@ -13,6 +14,7 @@
     "ui"
   ],
   "devDependencies": {
-    "copyfiles": "2.4.1"
+    "copyfiles": "2.4.1",
+    "rimraf": "^4.4.1"
   }
 }
