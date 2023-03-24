@@ -2,10 +2,5 @@
   "extends": "../tsconfig.json",
   "include": [
     "lib/*.ts"
-  ],
-  "references": [
-    {
-      "path": "../contract"
-    }
   ]
 }

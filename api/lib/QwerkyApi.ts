@@ -2,7 +2,7 @@ import http, {type IncomingMessage, RequestListener} from 'http'
 import {type Socket} from 'net'
 import {type Browser, chromium} from 'playwright'
 import {Server as WebSocketServer, type WebSocket} from 'ws'
-import type {ApiRequest, ApiResponse, InspectPoint, InspectSelector} from './QwerkyMessages'
+import {type ApiRequest, type ApiResponse, InspectPoint, InspectSelector} from 'qwerky-contract'
 import {QwerkyPage} from './QwerkyPage'
 
 export interface QwerkyApiOpts {
@@ -57,6 +57,7 @@ export class QwerkyApi {
     }
 
     handleWsConnection = (ws: WebSocket, req: IncomingMessage) => {
+        console.log('ws connection established', req.url)
         let active = true
         ws.on('message', (json: string) => {
             const msg = JSON.parse(json)
@@ -64,7 +65,7 @@ export class QwerkyApi {
             this.handleWsMessage(msg)
                 .then((result) => {
                     if (active && result) {
-                        console.log('ws send', result.type)
+                        console.log('ws send', result.messageType)
                         ws.send(JSON.stringify(result))
                     }
                 })
@@ -77,15 +78,15 @@ export class QwerkyApi {
     }
 
     async handleWsMessage(msg: ApiRequest): Promise<ApiResponse | void> {
-        switch (msg.type) {
+        switch (msg.messageType) {
             case 'open':
-                if (!this.pages[msg.id]) {
-                    this.pages[msg.id] = new QwerkyPage(msg.id, await (this.browser as Browser).newPage())
+                if (!this.pages[msg.sessionId]) {
+                    this.pages[msg.sessionId] = new QwerkyPage(msg.sessionId, await (this.browser as Browser).newPage())
                 }
-                return this.pages[msg.id].open(msg.url)
+                return this.pages[msg.sessionId].open(msg.url)
             case 'inspect':
-                if (msg['point']) return this.pages[msg.id].inspectPoint((msg as InspectPoint).point)
-                if (msg['selector']) return this.pages[msg.id].inspectSelector((msg as InspectSelector).selector)
+                if (msg['point']) return this.pages[msg.sessionId].inspectPoint((msg as InspectPoint).point)
+                if (msg['selector']) return this.pages[msg.sessionId].inspectSelector((msg as InspectSelector).selector)
                 throw new Error('bad inspect msg')
             default:
                 throw new Error(`bad msg type ${msg['type']}`)

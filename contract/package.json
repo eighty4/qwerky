@@ -1,5 +1,5 @@
 {
-  "name": "qwerky-api",
+  "name": "qwerky-contract",
   "version": "0.0.1",
   "license": "MIT",
   "exports": "./lib/exports.ts",
@@ -8,14 +8,8 @@
     "build": "tsc --build"
   },
   "dependencies": {
-    "qwerky-contract": "workspace:*",
-    "playwright": "1.32.0",
-    "ws": "8.13.0"
   },
   "devDependencies": {
-    "@types/node": "^18.15.5",
-    "@types/ws": "^8.5.4",
-    "dotenv": "16.0.3",
     "typescript": "^5.0.2"
   }
 }

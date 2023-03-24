@@ -1,5 +1,5 @@
 import type {Page} from 'playwright'
-import type {Element, InspectPointData, InspectSelectorData, PageOpenedData, Point} from './QwerkyMessages'
+import {Element, InspectPointData, InspectSelectorData, PageOpenedData, Point, Size} from 'qwerky-contract'
 
 export class QwerkyPage {
     private readonly id: any
@@ -15,7 +15,7 @@ export class QwerkyPage {
         const imageBuffer = await this.page.screenshot({fullPage: true, type: 'png'})
         const size = await this.page.viewportSize()
         const encodedImage = imageBuffer.toString('base64')
-        return {id: this.id, image: encodedImage, size, type: 'image'}
+        return new PageOpenedData(this.id, encodedImage, size)
     }
 
     async inspectPoint(point): Promise<InspectPointData> {
@@ -27,16 +27,17 @@ export class QwerkyPage {
             if (element) {
                 const classes: Array<string> = []
                 element.classList.forEach(c => classes.push(c))
-                const text = element.textContent
-                const size = {}
-                const position = {}
-                return {id: element.id, classes, text, size, position}
+                const size = new Size(element.clientHeight, element.clientWidth)
+                const boundingClientRect = element.getBoundingClientRect()
+                // @ts-ignore
+                const position = new Point(boundingClientRect.left + window.scrollX, boundingClientRect.top + window.scrollY)
+                return new Element(element.id, classes, element.textContent, size, position)
             } else {
                 throw new Error(`did not find element at ${point.x}, ${point.y}`)
             }
         }
         const element = await this.page.evaluate(inspectPointInPage, point)
-        return {id: this.id, element, point, type: 'describe'}
+        return {sessionId: this.id, element, point, messageType: 'describe'}
     }
 
     async inspectSelector(selector): Promise<InspectSelectorData | void> {
@@ -47,9 +48,9 @@ export class QwerkyPage {
                 classes: [],
                 text: await inspected.textContent(),
                 position: {x: 5, y: 5},
-                size: {x: 5, y: 5},
+                size: {height: 5, width: 5},
             }
-            return {id: this.id, element, selector, type: 'describe'}
+            return new InspectSelectorData(this.id, selector, element)
         }
     }
 

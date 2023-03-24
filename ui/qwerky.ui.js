@@ -9,9 +9,9 @@ ws.onmessage = ({data}) => handleWsMessage(JSON.parse(data))
 
 function handleWsMessage(msg) {
     console.log('ws recv', msg)
-    switch (msg.type) {
+    switch (msg.messageType) {
         case 'image':
-            showPage(msg.id, msg.image, msg.size)
+            showPage(msg.sessionId, msg.image, msg.size)
             break
         case 'describe':
             if (msg.point) console.log('describe', msg.point, msg.element)
@@ -20,8 +20,8 @@ function handleWsMessage(msg) {
 }
 
 function sendWsMessage(type, msg) {
-    msg.id = id
-    msg.type = type
+    msg.sessionId = id
+    msg.messageType = type
     console.log('ws send', msg)
     ws.send(JSON.stringify(msg))
 }
