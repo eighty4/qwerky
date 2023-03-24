@@ -2,7 +2,7 @@ import './qwerky.styl'
 import {v4} from 'uuid'
 
 let id
-const ws = new WebSocket('ws://localhost:4208/api')
+const ws = new WebSocket('ws://localhost:5394/api')
 ws.onopen = () => console.log('ws connected')
 ws.onclose = code => console.log('ws closed', code)
 ws.onmessage = ({data}) => handleWsMessage(JSON.parse(data))

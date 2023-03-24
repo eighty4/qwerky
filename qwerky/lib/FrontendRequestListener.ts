@@ -64,12 +64,12 @@ export function serveBuiltFiles(): RequestListener {
     }
 }
 
-export function devModeProxy(): RequestListener {
-    console.log('proxying qwerky frontend in dev mode')
+export function devModeProxy(port: number): RequestListener {
+    console.log(`dev mode proxying qwerky frontend from localhost:${port}`)
     return (req, res) => {
         console.log(req.method, req.url)
         const proxyRequest = request({
-            port: 5309,
+            port,
             host: 'localhost',
             path: req.url,
         }, proxyResponse => {

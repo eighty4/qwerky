@@ -4,6 +4,6 @@ import {devModeProxy, serveBuiltFiles} from './FrontendRequestListener'
 installPlaywrightBrowsers().then(startQwerkyApi)
 
 function startQwerkyApi() {
-    const requestListener = (process.env.NODE_ENV === 'production' ? serveBuiltFiles : devModeProxy)()
+    const requestListener = process.env.NODE_ENV === 'production' ? serveBuiltFiles() : devModeProxy(5395)
     new QwerkyApi({requestListener}).start().then()
 }

@@ -43,7 +43,7 @@ module.exports = (env, argv) => {
         },
         plugins,
         optimization: {minimizer: ['...', new CssMinimizerPlugin()]},
-        devServer: {port: 5309},
+        devServer: {port: 5395},
         mode: 'development',
     }
 }
