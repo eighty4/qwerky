@@ -2,8 +2,8 @@ import http, {type IncomingMessage, RequestListener} from 'http'
 import {type Socket} from 'net'
 import {type Browser, chromium} from 'playwright'
 import WebSocket, {WebSocketServer} from 'ws'
-import {type ApiRequest, type ApiResponse, InspectPoint, InspectSelector} from 'qwerky-contract'
-import {QwerkyPage} from './QwerkyPage.js'
+import {QwerkyConnection} from './QwerkyConnection.js'
+import {QwerkyPage, type QwerkyPageProvider} from './QwerkyPage.js'
 
 export interface QwerkyApiOpts {
     port?: number
@@ -12,7 +12,7 @@ export interface QwerkyApiOpts {
 
 export class QwerkyApi {
     private browser?: true | Browser
-    private readonly pages: Record<string, QwerkyPage> = {}
+    private readonly connections: Array<QwerkyConnection> = []
     private readonly port: number
     private readonly server: http.Server
     private readonly wss: WebSocketServer
@@ -38,7 +38,7 @@ export class QwerkyApi {
         }))
     }
 
-    handleHttpUpgrade = (req: IncomingMessage, socket: Socket, head: Buffer) => {
+    private handleHttpUpgrade = (req: IncomingMessage, socket: Socket, head: Buffer) => {
         if (!req.url) {
             socket.destroy()
             return
@@ -56,41 +56,16 @@ export class QwerkyApi {
         }
     }
 
-    handleWsConnection = (ws: WebSocket, req: IncomingMessage) => {
+    private handleWsConnection = (ws: WebSocket, req: IncomingMessage) => {
         console.log('ws connection established', req.url)
-        let active = true
-        ws.on('message', (json: string) => {
-            const msg = JSON.parse(json)
-            console.log('ws recv', msg)
-            this.handleWsMessage(msg)
-                .then((result) => {
-                    if (active && result) {
-                        console.log('ws send', result.messageType)
-                        ws.send(JSON.stringify(result))
-                    }
-                })
-                .catch(e => console.log('error handling msg', e.message, msg))
-        })
-        ws.on('close', code => {
-            console.log('ws close', code)
-            active = false
-        })
+        const ac = new QwerkyConnection(this.createQwerkyPage, ws)
+        this.connections.push(ac)
+        ac.on('close', () => this.connections.splice(this.connections.indexOf(ac), 1))
     }
 
-    async handleWsMessage(msg: ApiRequest): Promise<ApiResponse | void> {
-        switch (msg.messageType) {
-            case 'open':
-                if (!this.pages[msg.sessionId]) {
-                    this.pages[msg.sessionId] = new QwerkyPage(msg.sessionId, await (this.browser as Browser).newPage())
-                }
-                return this.pages[msg.sessionId].open(msg.url)
-            case 'inspect':
-                if (msg['point']) return this.pages[msg.sessionId].inspectPoint((msg as InspectPoint).point)
-                if (msg['selector']) return this.pages[msg.sessionId].inspectSelector((msg as InspectSelector).selector)
-                throw new Error('bad inspect msg')
-            default:
-                throw new Error(`bad msg type ${msg['type']}`)
-        }
+    private createQwerkyPage: QwerkyPageProvider = async (id: any) => {
+        const page = await (this.browser as Browser).newPage()
+        return new QwerkyPage(id, page)
     }
 
     async shutdown(): Promise<void> {
@@ -105,7 +80,7 @@ export class QwerkyApi {
             }))
             .then(() => (async () => {
                 console.log('closing open chrome pages')
-                await Promise.all(Object.keys(this.pages).map(id => this.pages[id].close()))
+                await Promise.all(this.connections.map(connection => connection.close()))
                 console.log('closing chrome browser')
                 if (this.browser) {
                     await (this.browser as Browser).close()

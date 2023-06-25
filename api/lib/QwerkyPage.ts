@@ -1,13 +1,11 @@
 import type {Page} from 'playwright'
 import {Element, InspectPointData, InspectSelectorData, PageOpenedData, Point} from 'qwerky-contract'
 
-export class QwerkyPage {
-    private readonly id: any
-    private readonly page: Page
+export type QwerkyPageProvider = (id: any) => Promise<QwerkyPage>
 
-    constructor(id, page) {
-        this.id = id
-        this.page = page
+export class QwerkyPage {
+
+    constructor(private readonly id: any, private readonly page: Page) {
     }
 
     async open(url: string): Promise<PageOpenedData> {
