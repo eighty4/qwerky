@@ -37,6 +37,6 @@
 
 {#if !url}
     <UrlForm on:url={onUrl}/>
-{:else}
+{:else if pageImageData}
     <PageImage url={url} imageBase64={pageImageData} on:inspectPoint={onInspectPoint}/>
 {/if}
