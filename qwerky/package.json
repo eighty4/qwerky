@@ -7,7 +7,7 @@
   "scripts": {
     "build": "tsc --build",
     "predev": "pnpm run -w clean",
-    "dev": "odemon --ext ts --watch './lib' --watch '../api/lib' --watch '../contract/lib' --exec 'ts-node --esm lib/Qwerky.ts'"
+    "dev": "nodemon --ext ts --watch './lib' --watch '../api/lib' --watch '../contract/lib' --exec 'ts-node --esm lib/Qwerky.ts'"
   },
   "dependencies": {
     "qwerky-api": "workspace:*"
