@@ -1,7 +1,9 @@
 <script lang="ts">
     import {createEventDispatcher} from 'svelte'
-    import {Point} from 'qwerky-contract'
+    import {Point, type Rect} from 'qwerky-contract'
+    import BoundingBox from './bounding_box.svelte'
 
+    export let boundingBoxes: Array<Rect> | undefined = undefined
     export let imageBase64: string
     export let url: string
 
@@ -18,6 +20,12 @@
 </script>
 
 <img alt={`Screenshot of ${url}`} src={imageSrc} on:click={onClick}/>
+
+{#if boundingBoxes}
+    {#each boundingBoxes as boundingBox}
+        <BoundingBox rect={boundingBox}/>
+    {/each}
+{/if}
 
 <style>
     img {

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {InspectPoint, OpenPage, Point} from 'qwerky-contract'
+    import {InspectPoint, OpenPage, type Point, type Rect, type Size} from 'qwerky-contract'
     import {onMount} from 'svelte'
     import PageImage from '$lib/open_page.svelte'
     import UrlForm from '$lib/url_form.svelte'
@@ -8,10 +8,14 @@
     let qc: QwerkyClient
     let url: string | undefined
     let pageImageData: string
+    let boundingBoxData: Array<Rect>
 
     onMount(() => {
         qc = new QwerkyClient(new WebSocket('ws://localhost:5394/api'), {
-            onImageData(image, size) {
+            onBoundingBoxes(boundingBoxes: Array<Rect>) {
+                boundingBoxData = boundingBoxes
+            },
+            onImageData(image, size: Size) {
                 pageImageData = image
             },
             onDescribePoint(point, element) {
@@ -38,5 +42,5 @@
 {#if !url}
     <UrlForm on:url={onUrl}/>
 {:else if pageImageData}
-    <PageImage url={url} imageBase64={pageImageData} on:inspectPoint={onInspectPoint}/>
+    <PageImage boundingBoxes={boundingBoxData} url={url} imageBase64={pageImageData} on:inspectPoint={onInspectPoint}/>
 {/if}

@@ -1,7 +1,7 @@
 import {EventEmitter} from 'node:events'
 import type WebSocket from 'ws'
 import type {QwerkyPage, QwerkyPageProvider} from './QwerkyPage.js'
-import {type ApiRequest, type ApiResponse, InspectPoint, InspectSelector} from 'qwerky-contract'
+import {type ApiRequest, type ApiResponse, BoundingBoxesData, InspectPoint, InspectSelector} from 'qwerky-contract'
 
 export declare interface QwerkyConnection {
     on(event: 'close', listener: () => void): this
@@ -49,10 +49,7 @@ export class QwerkyConnection extends EventEmitter {
     private async handleWsMessage(msg: ApiRequest): Promise<ApiResponse | void> {
         switch (msg.messageType) {
             case 'open':
-                if (!this.page) {
-                    this.page = await this.pageProvider(msg.sessionId)
-                }
-                return this.page!.open(msg.url)
+                return this.openPage(msg.sessionId, msg.url)
             case 'inspect':
                 if (this.page) {
                     if (msg['point']) return this.page.inspectPoint((msg as InspectPoint).point)
@@ -62,5 +59,18 @@ export class QwerkyConnection extends EventEmitter {
             default:
                 throw new Error(`bad msg type ${msg['type']}`)
         }
+    }
+
+    private async openPage(sessionId: string, url: string) {
+        if (!this.page) {
+            this.page = await this.pageProvider(sessionId)
+        }
+        const reply = await this.page!.open(url)
+        if (process.env.QWERKY_POC_SCRAPE_BOUNDING_BOX === 'true') {
+            this.page.scrapeBoundingBoxes().then(boundingBoxes => {
+                this.ws.send(JSON.stringify(new BoundingBoxesData(sessionId, boundingBoxes)))
+            })
+        }
+        return reply
     }
 }

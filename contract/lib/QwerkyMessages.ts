@@ -7,6 +7,11 @@ export class Element {
     }
 }
 
+export class Rect {
+    constructor(readonly x: number, readonly y: number, readonly h: number, readonly w: number) {
+    }
+}
+
 export class Point {
     constructor(readonly x: number, readonly y: number) {
     }
@@ -19,17 +24,24 @@ export class Size {
 
 export type ApiRequest = OpenPage | InspectPoint | InspectSelector
 
-export type ApiResponse = PageOpenedData | InspectPointData | InspectSelectorData
+export type ApiResponse = BoundingBoxesData | PageOpenedData | InspectPointData | InspectSelectorData
 
 export type ApiRequestMessageType = 'open' | 'inspect'
 
-export type ApiResponseMessageType = 'image' | 'describe'
+export type ApiResponseMessageType = 'boundingBoxes' | 'image' | 'describe'
 
 export type ApiMessageType = ApiRequestMessageType | ApiResponseMessageType
 
 export type ApiMessageBase = {
     sessionId: string
     messageType: ApiMessageType
+}
+
+export class BoundingBoxesData implements ApiMessageBase {
+    readonly messageType = 'boundingBoxes'
+
+    constructor(readonly sessionId: string, readonly boundingBoxes: Array<Rect>) {
+    }
 }
 
 export class OpenPage implements ApiMessageBase {
