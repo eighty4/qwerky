@@ -47,41 +47,41 @@ export class BoundingBoxesData implements ApiMessageBase {
 export class OpenPage implements ApiMessageBase {
     readonly messageType = 'open'
 
-    constructor(readonly sessionId, readonly url) {
+    constructor(readonly sessionId: string, readonly url: string) {
     }
 }
 
 export class InspectPoint implements ApiMessageBase {
     readonly messageType = 'inspect'
 
-    constructor(readonly sessionId, readonly point: Point) {
+    constructor(readonly sessionId: string, readonly point: Point) {
     }
 }
 
 export class InspectSelector implements ApiMessageBase {
     readonly messageType = 'inspect'
 
-    constructor(readonly sessionId, readonly selector: string) {
+    constructor(readonly sessionId: string, readonly selector: string) {
     }
 }
 
 export class PageOpenedData implements ApiMessageBase {
     readonly messageType = 'image'
 
-    constructor(readonly sessionId, readonly image: string, readonly size: Size | null) {
+    constructor(readonly sessionId: string, readonly image: string, readonly size: Size | null) {
     }
 }
 
 export class InspectPointData implements ApiMessageBase {
     readonly messageType = 'describe'
 
-    constructor(readonly sessionId, readonly point: Point, readonly element: Element) {
+    constructor(readonly sessionId: string, readonly point: Point, readonly element: Element) {
     }
 }
 
 export class InspectSelectorData implements ApiMessageBase {
     readonly messageType = 'describe'
 
-    constructor(readonly sessionId, readonly selector: string, readonly element: Element) {
+    constructor(readonly sessionId: string, readonly selector: string, readonly element: Element) {
     }
 }

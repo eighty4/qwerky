@@ -23,7 +23,7 @@ export class QwerkyPage {
     async open(url: string): Promise<PageOpenedData> {
         await this.page.goto(url)
         const imageBuffer = await this.page.screenshot({fullPage: true, type: 'png'})
-        const size = await this.page.viewportSize()
+        const size = this.page.viewportSize()
         const encodedImage = imageBuffer.toString('base64')
         return new PageOpenedData(this.id, encodedImage, size)
     }
@@ -38,7 +38,7 @@ export class QwerkyPage {
             .map(bb => ({h: bb!.height, w: bb!.width, x: bb!.x, y: bb!.y}))
     }
 
-    async inspectPoint(point): Promise<InspectPointData> {
+    async inspectPoint(point: Point): Promise<InspectPointData> {
         const inspectPointInPage: (point: Point) => Element = point => {
             // @ts-ignore
             window.scrollTo(point.x - 1, point.y - 1)
@@ -66,7 +66,7 @@ export class QwerkyPage {
         return {sessionId: this.id, element, point, messageType: 'describe'}
     }
 
-    async inspectSelector(selector): Promise<InspectSelectorData | void> {
+    async inspectSelector(selector: string): Promise<InspectSelectorData | void> {
         const inspected = await this.page.$(selector)
         if (inspected) {
             const element = {

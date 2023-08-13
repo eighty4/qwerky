@@ -2,6 +2,12 @@ import {request, type RequestListener} from 'http'
 import {existsSync, readFile} from 'fs'
 import {join} from 'path'
 
+const contentTypes = {
+    html: 'text/html',
+    js: 'text/javascript',
+    css: 'text/css',
+}
+
 export function serveBuiltFiles(): RequestListener {
     const filenames = ['index.html', 'qwerky.bg.js']
     let uiPaths = ['node_modules/qwerky-ui/dist']
@@ -21,15 +27,10 @@ export function serveBuiltFiles(): RequestListener {
         process.exit(1)
     }
     const uiDir = uiPaths[0]
-    const contentTypes = {
-        html: 'text/html',
-        js: 'text/javascript',
-        css: 'text/css',
-    }
-    const contentTypeFromFilename = filename => {
+    const contentTypeFromFilename = (filename: string) => {
         const extIndex = filename.lastIndexOf('.') + 1
         const ext = extIndex > 0 ? filename.substring(extIndex) : undefined
-        if (extIndex > 0 && contentTypes[ext]) {
+        if (ext && extIndex > 0 && contentTypes[ext]) {
             return contentTypes[ext]
         } else {
             return 'application/octet-stream'
