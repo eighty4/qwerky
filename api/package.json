@@ -1,7 +1,7 @@
 {
   "name": "qwerky-api",
   "version": "0.0.1",
-  "license": "MIT",
+  "license": "BSD-3-Clause",
   "type": "module",
   "exports": "./lib/exports.js",
   "types": "./lib/exports.d.ts",
@@ -9,15 +9,15 @@
     "build": "tsc --build"
   },
   "dependencies": {
-    "playwright": "1.37.0",
-    "playwright-core": "1.37.0",
+    "playwright": "1.41.1",
+    "playwright-core": "1.41.1",
     "qwerky-contract": "workspace:*",
-    "ws": "8.13.0"
+    "ws": "8.16.0"
   },
   "devDependencies": {
-    "@types/node": "^20.4.10",
-    "@types/ws": "^8.5.5",
-    "dotenv": "16.3.1",
-    "typescript": "^5.1.6"
+    "@types/node": "^20.11.5",
+    "@types/ws": "^8.5.10",
+    "dotenv": "16.4.0",
+    "typescript": "^5.3.3"
   }
 }
