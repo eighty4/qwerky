@@ -11,7 +11,7 @@ const config = {
             pages: 'build',
             assets: 'build',
             precompress: true,
-            strict: true
+            strict: true,
         }),
     },
 }
