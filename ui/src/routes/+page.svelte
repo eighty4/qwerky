@@ -1,8 +1,8 @@
 <script lang="ts">
     import {InspectPoint, OpenPage, type Point, type Rect, type Size} from 'qwerky-contract'
     import {onMount} from 'svelte'
-    import PageImage from '$lib/open_page.svelte'
-    import UrlForm from '$lib/url_form.svelte'
+    import PageImage from './open_page.svelte'
+    import UrlForm from './url_form.svelte'
     import {QwerkyClient} from '$lib/QwerkyClient.js'
 
     let qc: QwerkyClient
