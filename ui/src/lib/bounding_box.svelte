@@ -5,9 +5,13 @@
     let hover: boolean = false
 </script>
 
-<div style="height: {rect.h}px; width: {rect.w}px; top: {rect.y}px; left: {rect.x}px"
+<div role="radio" tabindex="0" aria-checked={hover}
+     style="height: {rect.h}px; width: {rect.w}px; top: {rect.y}px; left: {rect.x}px"
      class:hover
-     on:mouseover={() => {hover = true; return true}} on:mouseout={() => {hover = false; return true}}>
+     onfocus={() => hover = true}
+     onblur={() => hover = false}
+     onmouseover={() => {hover = true; return true}}
+     onmouseout={() => {hover = false; return true}}>
 </div>
 
 <style>

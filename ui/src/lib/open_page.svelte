@@ -12,14 +12,16 @@
     let imageSrc: string
     $: imageSrc = 'data:image/png;base64,' + imageBase64
 
-    function onClick(e) {
-        const boundingRect = e.currentTarget.getBoundingClientRect()
+    function onClick(e: MouseEvent) {
+        const boundingRect = (e.currentTarget as HTMLElement).getBoundingClientRect()
         const point = new Point(e.clientX - boundingRect.left, e.clientY - boundingRect.top)
         dispatch('inspectPoint', point)
     }
 </script>
 
-<img alt={`Screenshot of ${url}`} src={imageSrc} on:click={onClick}/>
+<!-- svelte-ignore a11y-click-events-have-key-events a11y-no-noninteractive-element-interactions -->
+
+<img alt={`Screenshot of ${url}`} src={imageSrc} onclick={onClick}/>
 
 {#if boundingBoxes}
     {#each boundingBoxes as boundingBox}

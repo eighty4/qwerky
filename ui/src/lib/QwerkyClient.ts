@@ -1,10 +1,13 @@
 import {v4} from 'uuid'
-import type {ApiRequest, ApiResponse, Point, Rect, Size} from 'qwerky-contract'
+import type {ApiRequest, ApiResponse, Element, Point, Rect, Size} from 'qwerky-contract'
 
 export interface QwerkyMessageHandler {
     onBoundingBoxes(boundingBoxes: Array<Rect>): void
+
     onImageData(image: string, size: Size | null): void
+
     onDescribePoint(point: Point, element: Element): void
+
     onDescribeSelector(selector: string, element: Element): void
 }
 

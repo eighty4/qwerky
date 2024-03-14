@@ -7,7 +7,7 @@
     let url = ''
     let sentToApi = false
 
-    function onInputKeydown(e) {
+    function onInputKeydown(e: KeyboardEvent) {
         if (e.code === 'Enter') {
             onButtonClick()
         }
@@ -24,17 +24,18 @@
     }
 </script>
 
+<!-- svelte-ignore a11y-autofocus -->
+
 <AppWindow>
     <div class="form-content">
         {#if !sentToApi}
             <h3>Welcome to Qwerky!</h3>
             <div>
                 <label for="url-input">Url</label>
-                <input id="url-input" autofocus placeholder="type a url here" bind:value={url}
-                       on:keydown={onInputKeydown}/>
+                <input id="url-input" autofocus placeholder="type a url here" bind:value={url} onkeydown={onInputKeydown}/>
             </div>
             <div>
-                <button on:click={onButtonClick}>Click to start</button>
+                <button onclick={onButtonClick}>Click to start</button>
             </div>
         {:else}
             <h3 class="loading">Waiting for the page</h3>
