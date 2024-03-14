@@ -4,8 +4,7 @@
   "packageManager": "pnpm@8.6.3",
   "private": true,
   "scripts": {
-    "build": "copyfiles LICENSE api; copyfiles LICENSE contract; copyfiles LICENSE qwerky; copyfiles LICENSE ui",
-    "clean": "rimraf -g */lib/**/*.{d.ts,js}"
+    "clean": "rimraf -g */lib/**/*.{d.ts,js} node_modules */node_modules tsconfig.tsbuildinfo ui/build ui/.svelte-kit"
   },
   "workspaces": [
     "api",
@@ -14,7 +13,6 @@
     "ui"
   ],
   "devDependencies": {
-    "copyfiles": "2.4.1",
     "rimraf": "5.0.5"
   }
 }

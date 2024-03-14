@@ -9,15 +9,15 @@
     "build": "tsc --build"
   },
   "dependencies": {
-    "playwright": "1.41.1",
-    "playwright-core": "1.41.1",
+    "playwright": "1.42.1",
+    "playwright-core": "1.42.1",
     "qwerky-contract": "workspace:*",
     "ws": "8.16.0"
   },
   "devDependencies": {
-    "@types/node": "^20.11.5",
-    "@types/ws": "^8.5.10",
-    "dotenv": "16.4.0",
-    "typescript": "^5.3.3"
+    "@types/node": "20.11.27",
+    "@types/ws": "8.5.10",
+    "dotenv": "16.4.5",
+    "typescript": "5.4.2"
   }
 }

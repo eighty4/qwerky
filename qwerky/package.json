@@ -6,16 +6,14 @@
   "bin": "lib/Qwerky.js",
   "scripts": {
     "build": "tsc --build",
-    "predev": "pnpm run -w clean",
-    "dev": "nodemon --ext ts --watch './lib' --watch '../api/lib' --watch '../contract/lib' --exec 'ts-node --esm lib/Qwerky.ts'"
+    "dev": "tsx -r dotenv/config --watch lib/Qwerky.ts"
   },
   "dependencies": {
     "qwerky-api": "workspace:*"
   },
   "devDependencies": {
-    "@types/node": "^20.11.5",
-    "nodemon": "^3.0.3",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.3.3"
+    "@types/node": "20.11.27",
+    "tsx": "4.7.1",
+    "typescript": "5.4.2"
   }
 }
