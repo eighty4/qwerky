@@ -5,6 +5,9 @@ export default defineConfig({
     plugins: [sveltekit()],
     server: {
         port: 5395,
+        proxy: {
+            '/api': 'http://localhost:5394',
+        },
     },
     test: {
         include: ['src/**/*.{test,spec}.{js,ts}'],

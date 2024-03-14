@@ -11,7 +11,7 @@ export interface QwerkyMessageHandler {
 export class QwerkyClient {
 
     static localApi(messageHandler: QwerkyMessageHandler): QwerkyClient {
-        return new QwerkyClient(new WebSocket('ws://localhost:5394/api'), messageHandler)
+        return new QwerkyClient(new WebSocket(`ws://${location.host}/api`), messageHandler)
     }
 
     private readonly sessionId = v4()

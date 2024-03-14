@@ -1,4 +1,4 @@
-import {request, type RequestListener} from 'http'
+import type {RequestListener} from 'http'
 import {existsSync, readFile} from 'fs'
 import {join} from 'path'
 
@@ -60,40 +60,6 @@ export function serveBuiltFiles(): RequestListener {
                     'Content-Length': data.length,
                 })
                 res.end(data)
-            }
-        })
-    }
-}
-
-export function devModeProxy(port: number): RequestListener {
-    console.log(`dev mode proxying qwerky frontend from localhost:${port}`)
-    return (req, res) => {
-        console.log(req.method, req.url)
-        const proxyRequest = request({
-            port,
-            host: 'localhost',
-            path: req.url,
-        }, proxyResponse => {
-            console.log('ui proxy', req.method, req.url, proxyResponse.statusCode)
-            Object.keys(proxyResponse.headers)
-                .forEach(headerName => {
-                    const headers = proxyResponse.headers[headerName]
-                    if (headers) {
-                        res.setHeader(headerName, headers)
-                    }
-                })
-            res.flushHeaders()
-            proxyResponse.on('data', (chunk) => res.write(chunk))
-            proxyResponse.resume()
-        })
-        proxyRequest.end()
-        proxyRequest.on('error', (e: any) => {
-            if (e.code === 'ECONNREFUSED') {
-                console.log(
-                    `\n${e.code} error proxying ui request to ${e.address}/${e.port} in dev mode`,
-                    '\nIs qwerty ui:dev running?\n')
-            } else {
-                console.log(`\n${e}\n`)
             }
         })
     }
