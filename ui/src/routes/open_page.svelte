@@ -33,5 +33,8 @@
     img {
         box-sizing: border-box;
         position: relative;
+        top: var(--header-height);
+        padding-bottom: var(--footer-height);
+        z-index: var(--page-img-z-index);
     }
 </style>
