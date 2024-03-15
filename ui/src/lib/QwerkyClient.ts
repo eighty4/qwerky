@@ -9,6 +9,8 @@ export interface QwerkyMessageHandler {
     onDescribePoint(point: Point, element: Element): void
 
     onDescribeSelector(selector: string, element: Element): void
+
+    onConnectionLost(): void
 }
 
 export class QwerkyClient {
@@ -28,7 +30,10 @@ export class QwerkyClient {
 
     onopen = () => console.log('ws connected')
 
-    onclose = ({code}: CloseEvent) => console.log('ws closed', code)
+    onclose = ({code}: CloseEvent) => {
+        console.log('ws closed', code)
+        this.messageHandler.onConnectionLost()
+    }
 
     onmessage = ({data}: MessageEvent) => this.handleMessage(JSON.parse(data))
 

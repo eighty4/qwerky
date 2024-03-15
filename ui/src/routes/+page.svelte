@@ -24,6 +24,9 @@
             onDescribeSelector(selector, element) {
                 console.log('describe', selector, element)
             },
+            onConnectionLost() {
+                document.body.innerHTML = '<div style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: maroon; display: flex; justify-content: center; align-items: center"><span>ERRCONN: reload webpage</span></div>'
+            }
         })
     })
 
