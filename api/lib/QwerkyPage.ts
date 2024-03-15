@@ -1,5 +1,13 @@
 import type {Page} from 'playwright'
-import {Element, InspectPointData, InspectSelectorData, PageOpenedData, Point, Rect} from 'qwerky-contract'
+import {
+    type Element,
+    type InspectPointData,
+    InspectSelectorData,
+    PageOpenedData,
+    type Point,
+    type Rect,
+    type Size,
+} from 'qwerky-contract'
 
 export type QwerkyPageProvider = (id: any) => Promise<QwerkyPage>
 
@@ -23,8 +31,15 @@ export class QwerkyPage {
     async open(url: string): Promise<PageOpenedData> {
         await this.page.goto(url)
         const imageBuffer = await this.page.screenshot({fullPage: true, type: 'png'})
-        const size = this.page.viewportSize()
         const encodedImage = imageBuffer.toString('base64')
+        const size = await this.page.evaluate((): Size => {
+            return {
+                // @ts-ignore
+                width: document.body.scrollWidth,
+                // @ts-ignore
+                height: document.body.scrollHeight,
+            }
+        })
         return new PageOpenedData(this.id, encodedImage, size)
     }
 

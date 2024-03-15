@@ -69,7 +69,7 @@ export class InspectSelector implements ApiMessageBase {
 export class PageOpenedData implements ApiMessageBase {
     readonly messageType = 'image'
 
-    constructor(readonly sessionId: string, readonly image: string, readonly size: Size | null) {
+    constructor(readonly sessionId: string, readonly image: string, readonly size: Size) {
     }
 }
 
