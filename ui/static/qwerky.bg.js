@@ -10,6 +10,8 @@
         '#0310ea',
     ]
 
+    let shapeCounter = 0
+
     let drawnWindowSize = {}
 
     const shapes = document.getElementById('shapes')
@@ -83,6 +85,19 @@
         shapeElement.style.left = shape.left + 'px'
         shapeElement.style.width = shape.width + 'px'
         shapeElement.style.height = (shape.height || shape.width) + 'px'
+        shapeElement.style.transform = 'scale(0)'
+        shapeElement.animate([
+            {
+                transform: 'scale(0)'
+            },
+            {
+                transform: 'scale(1)'
+            },
+        ], {
+            duration: 300,
+            delay: 25 * shapeCounter++,
+            fill: 'forwards',
+        })
         return shapeElement
     }
 
@@ -92,9 +107,8 @@
     }
 
     function draw() {
+        shapeCounter = 0
         colors.forEach(showRandomBox)
-        colors.forEach(showRandomBox)
-        colors.forEach(showRandomCircle)
         colors.forEach(showRandomCircle)
         drawnWindowSize = {
             width: window.innerWidth,
