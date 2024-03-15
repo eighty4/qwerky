@@ -1,6 +1,5 @@
 <script lang="ts">
     import {createEventDispatcher} from 'svelte'
-    import AppWindow from './app_window.svelte'
 
     const dispatch = createEventDispatcher<{ url: string }>()
 
@@ -26,7 +25,7 @@
 
 <!-- svelte-ignore a11y-autofocus -->
 
-<AppWindow>
+<div class="form-window">
     <div class="form-content">
         {#if !sentToApi}
             <h3>Welcome to Qwerky!</h3>
@@ -41,9 +40,22 @@
             <h3 class="loading">Waiting for the page</h3>
         {/if}
     </div>
-</AppWindow>
+</div>
 
 <style>
+    .form-window {
+        background: #000;
+        border: 1px solid #fff;
+        box-shadow: inset 0 0 0 1px hsla(0, 0%, 100%, .5), inset 0 0 0 2px hsla(0, 0%, 100%, .25), 0 0 0 1px hsla(0, 0%, 100%, .3), 0 0 0 2px hsla(0, 0%, 100%, .15);
+        box-sizing: border-box;
+        padding: 5rem;
+
+        /* position */
+        position: fixed;
+        left: 50%;
+        top: 20%;
+    }
+
     .form-content {
         display: flex;
         flex-direction: column;
