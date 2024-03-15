@@ -40,6 +40,17 @@ export class QwerkyConnection extends EventEmitter {
             .then((result) => {
                 if (this.active && result) {
                     console.log('ws send', result.messageType)
+                    if (result.messageType === 'image') {
+                        // todo image data should be sent as a binary buffer and not a base64 str
+                        console.log('ws send', {
+                            messageType: result.messageType,
+                            size: result.size,
+                            sessionId: result.sessionId,
+                            image: 'ZGVzcGVyYWRvcw==',
+                        })
+                    } else {
+                        console.log('ws send', result)
+                    }
                     this.ws.send(JSON.stringify(result))
                 }
             })
