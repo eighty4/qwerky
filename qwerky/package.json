@@ -6,14 +6,14 @@
   "bin": "lib/Qwerky.js",
   "scripts": {
     "build": "tsc --build",
-    "dev": "tsx -r dotenv/config --watch lib/Qwerky.ts"
+    "build:watch": "tsc --build --watch",
+    "start:watch": "node --watch lib/Qwerky.js"
   },
   "dependencies": {
     "qwerky-api": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "20.11.27",
-    "tsx": "4.7.1",
     "typescript": "5.4.2"
   }
 }
