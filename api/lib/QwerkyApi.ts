@@ -29,7 +29,12 @@ export class QwerkyApi {
         } else {
             this.browser = true
         }
-        this.browser = await chromium.launch({headless: process.env.NODE_ENV === 'production'})
+        this.browser = await chromium.launch({
+            headless: process.env.NODE_ENV === 'production',
+            handleSIGTERM: false,
+            handleSIGHUP: false,
+            handleSIGINT: false,
+        })
         this.server.on('upgrade', this.handleHttpUpgrade)
         this.wss.on('connection', this.handleWsConnection)
         return new Promise((res) => this.server.listen(this.port, () => {
