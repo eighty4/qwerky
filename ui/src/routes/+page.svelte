@@ -11,6 +11,7 @@
     let qc: QwerkyClient
     let url: string | undefined
     let pageImageData: string
+    let pageImageSize: Size
     let boundingBoxData: Array<Rect>
 
     onMount(() => {
@@ -19,6 +20,7 @@
                 boundingBoxData = boundingBoxes
             },
             onImageData(image, size: Size) {
+                pageImageSize = size
                 pageImageData = image
             },
             onDescribePoint(point, element) {
@@ -50,6 +52,12 @@
 {#if !url}
     <UrlForm on:url={onUrl}/>
 {:else if pageImageData}
-    <PageImage boundingBoxes={boundingBoxData} url={url} imageBase64={pageImageData} on:inspectPoint={onInspectPoint}/>
+    <PageImage boundingBoxes={boundingBoxData}
+               url={url}
+               imageBase64={pageImageData}
+               imageSize={pageImageSize}
+               on:inspectPoint={onInspectPoint}
+               --img-width={pageImageSize.width}
+               --img-height={pageImageSize.height}/>
 {/if}
 <Footer/>
