@@ -39,16 +39,20 @@ export class QwerkyPage {
     }
 
     async inspectPoint(point: Point): Promise<InspectPointData> {
-        const inspectPointInPage: (point: Point) => Element = point => {
+        const inspectPointInPage: (point: Point) => Array<Element> = point => {
             // @ts-ignore
-            window.scrollTo(point.x - 1, point.y - 1)
+            window.scrollTo(0, point.y - 1)
+            const elements: Array<Element> = []
             // @ts-ignore
-            const element = document.elementFromPoint(1, 1)
-            if (element) {
+            for (const element of document.elementsFromPoint(point.x, 1)) {
+                if (element.tagName === 'BODY') {
+                    break
+                }
                 const boundingClientRect = element.getBoundingClientRect()
                 // @ts-ignore
                 const {scrollX, scrollY} = window
-                return {
+                elements.push({
+                    tagName: element.tagName,
                     id: element.id,
                     classes: [...element.classList],
                     text: element.textContent,
@@ -57,19 +61,19 @@ export class QwerkyPage {
                         x: boundingClientRect.left + scrollX,
                         y: boundingClientRect.top + scrollY,
                     },
-                }
-            } else {
-                throw new Error(`did not find element at ${point.x}, ${point.y}`)
+                })
             }
+            return elements
         }
-        const element = await this.page.evaluate(inspectPointInPage, point)
-        return {sessionId: this.id, element, point, messageType: 'describe'}
+        const elements = await this.page.evaluate(inspectPointInPage, point)
+        return {sessionId: this.id, elements, point, messageType: 'describe'}
     }
 
     async inspectSelector(selector: string): Promise<InspectSelectorData | void> {
         const inspected = await this.page.$(selector)
         if (inspected) {
             const element = {
+                tagName: '',
                 id: '',
                 classes: [],
                 text: await inspected.textContent(),

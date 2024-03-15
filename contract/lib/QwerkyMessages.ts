@@ -1,5 +1,6 @@
 export class Element {
-    constructor(readonly id: string,
+    constructor(readonly tagName: string,
+                readonly id: string,
                 readonly classes: Array<string>,
                 readonly text: string | null,
                 readonly size: Size,
@@ -75,7 +76,7 @@ export class PageOpenedData implements ApiMessageBase {
 export class InspectPointData implements ApiMessageBase {
     readonly messageType = 'describe'
 
-    constructor(readonly sessionId: string, readonly point: Point, readonly element: Element) {
+    constructor(readonly sessionId: string, readonly point: Point, readonly elements: Array<Element>) {
     }
 }
 
