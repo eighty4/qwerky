@@ -81,7 +81,25 @@ export class QwerkyPage {
             return elements
         }
         const elements = await this.page.evaluate(inspectPointInPage, point)
+        if (process.env.NODE_ENV !== 'production') {
+            await this.addDebugMarker(point)
+        }
         return {sessionId: this.id, elements, point, messageType: 'describe'}
+    }
+
+    async addDebugMarker(point: Point) {
+        await this.page.evaluate((point) => {
+            // @ts-ignore
+            const div = document.createElement('div')
+            div.style.width = '5px'
+            div.style.height = '5px'
+            div.style.background = 'hotpink'
+            div.style.position = 'absolute'
+            div.style.top = (point.y - 2) + 'px'
+            div.style.left = (point.x - 2) + 'px'
+            // @ts-ignore
+            document.body.appendChild(div)
+        }, point)
     }
 
     async inspectSelector(selector: string): Promise<InspectSelectorData | void> {
