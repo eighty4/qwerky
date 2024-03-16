@@ -3,17 +3,19 @@ import {vitePreprocess} from '@sveltejs/vite-plugin-svelte'
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
-    preprocess: vitePreprocess(),
-
+    compilerOptions: {
+        runes: true,
+    },
     kit: {
         // https://kit.svelte.dev/docs/adapters
         adapter: adapter({
-            pages: 'build',
             assets: 'build',
+            pages: 'build',
             precompress: true,
             strict: true,
         }),
     },
+    preprocess: vitePreprocess(),
 }
 
 export default config

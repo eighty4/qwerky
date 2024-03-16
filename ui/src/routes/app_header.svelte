@@ -1,5 +1,9 @@
 <script lang="ts">
-    export let url: string | undefined
+    interface AppHeaderProps {
+        url?: string
+    }
+
+    let {url}: AppHeaderProps = $props()
 </script>
 
 <header>

@@ -3,8 +3,8 @@
 
     const dispatch = createEventDispatcher<{ url: string }>()
 
-    let url = ''
-    let sentToApi = false
+    let url: string = $state('')
+    let sentToApi: boolean = $state(false)
 
     function onInputKeydown(e: KeyboardEvent) {
         if (e.code === 'Enter') {
@@ -31,7 +31,11 @@
             <h3>Welcome to Qwerky!</h3>
             <div>
                 <label for="url-input">Url</label>
-                <input id="url-input" autofocus placeholder="type a url here" bind:value={url} onkeydown={onInputKeydown}/>
+                <input id="url-input"
+                       autofocus
+                       placeholder="type a url here"
+                       bind:value={url}
+                       onkeydown={onInputKeydown}/>
             </div>
             <div>
                 <button onclick={onButtonClick}>Click to start</button>

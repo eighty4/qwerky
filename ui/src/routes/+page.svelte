@@ -9,19 +9,17 @@
     import {QwerkyClient} from '$lib/QwerkyClient.js'
 
     let qc: QwerkyClient
-    let url: string | undefined
-    let pageImageData: string
-    let pageImageSize: Size
-    let boundingBoxData: Array<Rect>
+    let url: string | null = $state(null)
+    let currentPageImage: { base64: string, size: Size } | null = $state(null)
+    let boundingBoxData: Array<Rect> | null = $state(null)
 
     onMount(() => {
         qc = QwerkyClient.connect({
             onBoundingBoxes(boundingBoxes: Array<Rect>) {
                 boundingBoxData = boundingBoxes
             },
-            onImageData(image, size: Size) {
-                pageImageSize = size
-                pageImageData = image
+            onImageData(base64, size: Size) {
+                currentPageImage = {base64, size}
             },
             onDescribePoint(point, elements) {
                 console.log('describe', point, elements)
@@ -51,13 +49,13 @@
 <Panel/>
 {#if !url}
     <UrlForm on:url={onUrl}/>
-{:else if pageImageData}
+{:else if currentPageImage !== null}
     <PageImage boundingBoxes={boundingBoxData}
                url={url}
-               imageBase64={pageImageData}
-               imageSize={pageImageSize}
+               imageBase64={currentPageImage.base64}
+               imageSize={currentPageImage.size}
                on:inspectPoint={onInspectPoint}
-               --img-width={pageImageSize.width}
-               --img-height={pageImageSize.height}/>
+               --img-width={currentPageImage.size.width}
+               --img-height={currentPageImage.size.height}/>
 {/if}
 <Footer/>

@@ -1,8 +1,13 @@
 <script lang="ts">
     import type {Rect} from 'qwerky-contract'
 
-    export let rect: Rect
-    let hover: boolean = false
+    interface BoundingBoxProps {
+        rect: Rect
+    }
+
+    let {rect}: BoundingBoxProps = $props()
+
+    let hover: boolean = $state(false)
 </script>
 
 <div role="radio" tabindex="0" aria-checked={hover}
