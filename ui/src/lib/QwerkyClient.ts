@@ -15,7 +15,7 @@ export interface QwerkyMessageHandler {
 
 export class QwerkyClient {
 
-    static localApi(messageHandler: QwerkyMessageHandler): QwerkyClient {
+    static connect(messageHandler: QwerkyMessageHandler): QwerkyClient {
         return new QwerkyClient(new WebSocket(`ws://${location.host}/api`), messageHandler)
     }
 

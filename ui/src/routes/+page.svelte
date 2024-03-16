@@ -15,7 +15,7 @@
     let boundingBoxData: Array<Rect>
 
     onMount(() => {
-        qc = new QwerkyClient(new WebSocket('ws://localhost:5394/api'), {
+        qc = QwerkyClient.connect({
             onBoundingBoxes(boundingBoxes: Array<Rect>) {
                 boundingBoxData = boundingBoxes
             },

@@ -6,7 +6,10 @@ export default defineConfig({
     server: {
         port: 5395,
         proxy: {
-            '/api': 'http://localhost:5394',
+            '/api': {
+                target: 'http://localhost:5394',
+                ws: true,
+            },
         },
     },
     test: {
