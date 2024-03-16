@@ -102,7 +102,7 @@ export class QwerkyPage {
         }, point)
     }
 
-    async inspectSelector(selector: string): Promise<InspectSelectorData | void> {
+    async inspectSelector(selector: string): Promise<InspectSelectorData> {
         // todo implement
         const inspected = await this.page.$(selector)
         if (inspected) {
@@ -116,6 +116,7 @@ export class QwerkyPage {
             }
             return new InspectSelectorData(this.id, selector, [element])
         }
+        return new InspectSelectorData(this.id, selector, [])
     }
 
     async close() {
