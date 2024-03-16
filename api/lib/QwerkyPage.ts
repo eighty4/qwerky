@@ -103,6 +103,7 @@ export class QwerkyPage {
     }
 
     async inspectSelector(selector: string): Promise<InspectSelectorData | void> {
+        // todo implement
         const inspected = await this.page.$(selector)
         if (inspected) {
             const element = {
@@ -113,7 +114,7 @@ export class QwerkyPage {
                 position: {x: 5, y: 5},
                 size: {height: 5, width: 5},
             }
-            return new InspectSelectorData(this.id, selector, element)
+            return new InspectSelectorData(this.id, selector, [element])
         }
     }
 

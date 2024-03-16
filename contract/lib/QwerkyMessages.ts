@@ -83,6 +83,6 @@ export class InspectPointData implements ApiMessageBase {
 export class InspectSelectorData implements ApiMessageBase {
     readonly messageType = 'describe'
 
-    constructor(readonly sessionId: string, readonly selector: string, readonly element: Element) {
+    constructor(readonly sessionId: string, readonly selector: string, readonly elements: Array<Element>) {
     }
 }
