@@ -1,5 +1,5 @@
-import http, {type IncomingMessage, RequestListener} from 'http'
-import {type Socket} from 'net'
+import http, {type IncomingMessage, type RequestListener} from 'node:http'
+import type {Socket} from 'node:net'
 import {type Browser, chromium} from 'playwright'
 import WebSocket, {WebSocketServer} from 'ws'
 import {QwerkyConnection} from './QwerkyConnection.js'
@@ -62,35 +62,20 @@ export class QwerkyApi {
     }
 
     private handleWsConnection = (ws: WebSocket, req: IncomingMessage) => {
-        console.log('ws connection established', req.url)
-        const ac = new QwerkyConnection(this.createQwerkyPage, ws)
-        this.connections.push(ac)
-        ac.on('close', () => this.connections.splice(this.connections.indexOf(ac), 1))
+        console.debug('QwerkyApi.handleWsConnection', req.url)
+        const connection = new QwerkyConnection(this.createQwerkyPage, ws)
+        this.connections.push(connection)
+        connection.on('close', () => this.removeWsConnection(connection))
+    }
+
+    private removeWsConnection(connection: QwerkyConnection) {
+        console.debug('QwerkyApi.removeWsConnection')
+        this.connections.splice(this.connections.indexOf(connection), 1)
     }
 
     private createQwerkyPage: QwerkyPageProvider = async (id: any) => {
+        console.debug('QwerkyApi.createQwerkyPage')
         const page = await (this.browser as Browser).newPage()
         return new QwerkyPage(id, page)
-    }
-
-    async shutdown(): Promise<void> {
-        console.log('shutting down')
-        this.server.off('upgrade', this.handleHttpUpgrade)
-        this.wss.off('connection', this.handleWsConnection)
-        console.log('closing ws server')
-        return new Promise((res) => this.wss.close(res))
-            .then(() => new Promise<void>((res, rej) => {
-                console.log('closing http server')
-                this.server.close((err) => err ? rej(err) : res())
-            }))
-            .then(() => (async () => {
-                console.log('closing open chrome pages')
-                await Promise.all(this.connections.map(connection => connection.close()))
-                console.log('closing chrome browser')
-                if (this.browser) {
-                    await (this.browser as Browser).close()
-                }
-                console.log('shutdown finished')
-            })())
     }
 }

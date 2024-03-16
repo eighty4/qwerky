@@ -1,3 +1,4 @@
+import {EventEmitter} from 'node:events'
 import type {Page} from 'playwright'
 import {
     type Element,
@@ -23,9 +24,15 @@ const ariaRoles = [
     'treegrid', 'treeitem',
 ]
 
-export class QwerkyPage {
+export declare interface QwerkyPage {
+    on(event: 'close', listener: () => void): this
+}
+
+export class QwerkyPage extends EventEmitter {
 
     constructor(private readonly id: any, private readonly page: Page) {
+        super()
+        this.page.on('close', () => this.emit('close'))
     }
 
     async open(url: string): Promise<PageOpenedData> {
@@ -120,6 +127,9 @@ export class QwerkyPage {
     }
 
     async close() {
-        await this.page.close()
+        console.debug('QwerkyPage.close')
+        if (this.page && !this.page.isClosed()) {
+            await this.page.close()
+        }
     }
 }
