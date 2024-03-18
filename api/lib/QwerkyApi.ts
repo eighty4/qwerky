@@ -18,8 +18,11 @@ export class QwerkyApi {
     private readonly wss: WebSocketServer
 
     constructor(opts?: QwerkyApiOpts) {
-        this.port = (opts && opts.port) ? opts.port : parseInt(process.env.QWERKY_PORT || '5394', 10)
-        this.server = new http.Server(opts?.requestListener)
+        this.port = opts?.port ?? parseInt(process.env.QWERKY_PORT || '5394', 10)
+        this.server = new http.Server(opts?.requestListener ?? ((req, res) => {
+            res.statusCode = 404
+            res.end()
+        }))
         this.wss = new WebSocketServer({noServer: true})
     }
 
