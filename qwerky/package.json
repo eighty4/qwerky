@@ -7,7 +7,8 @@
   "scripts": {
     "build": "tsc --build",
     "build:watch": "tsc --build --watch",
-    "start:watch": "node --watch lib/Qwerky.js"
+    "start:watch": "node --watch lib/Qwerky.js",
+    "debug:watch": "QWERKY_BROWSER_DEBUG=true node --watch lib/Qwerky.js"
   },
   "dependencies": {
     "qwerky-api": "workspace:*"

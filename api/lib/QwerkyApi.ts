@@ -33,7 +33,7 @@ export class QwerkyApi {
             this.browser = true
         }
         this.browser = await chromium.launch({
-            headless: process.env.NODE_ENV === 'production',
+            headless: process.env.QWERKY_BROWSER_DEBUG !== 'true',
             handleSIGTERM: false,
             handleSIGHUP: false,
             handleSIGINT: false,
