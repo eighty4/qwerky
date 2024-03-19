@@ -9,6 +9,7 @@
     import {QwerkyClient} from '$lib/QwerkyClient.js'
 
     let qc: QwerkyClient
+    let pageLoading: boolean = $state(false)
     let url: string | null = $state(null)
     let currentPageImage: { base64: string, size: Size } | null = $state(null)
     let boundingBoxData: Array<Rect> | null = $state(null)
@@ -20,6 +21,7 @@
                 boundingBoxData = boundingBoxes
             },
             onImageData(base64, size: Size) {
+                pageLoading = false
                 currentPageImage = {base64, size}
             },
             onDescribePoint(point, elements) {
@@ -36,6 +38,7 @@
     })
 
     function onUrl(event: CustomEvent<string>) {
+        pageLoading = true
         url = event.detail
         console.log(JSON.stringify(url))
         qc.sendMessage(new OpenPage(undefined, url))
@@ -47,7 +50,7 @@
     }
 </script>
 
-<Header url={url}/>
+<Header pageLoading={pageLoading} url={url}/>
 <Panel elements={inspectElements}/>
 {#if !url}
     <UrlForm on:url={onUrl}/>
