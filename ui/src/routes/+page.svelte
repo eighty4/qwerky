@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {InspectPoint, OpenPage, type Point, type Rect, type Size} from 'qwerky-contract'
+    import {type Element, InspectPoint, OpenPage, type Point, type Rect, type Size} from 'qwerky-contract'
     import {onMount} from 'svelte'
     import Header from './app_header.svelte'
     import Panel from './app_panel.svelte'
@@ -12,6 +12,7 @@
     let url: string | null = $state(null)
     let currentPageImage: { base64: string, size: Size } | null = $state(null)
     let boundingBoxData: Array<Rect> | null = $state(null)
+    let inspectElements: Array<Element> = $state([])
 
     onMount(() => {
         qc = QwerkyClient.connect({
@@ -23,6 +24,7 @@
             },
             onDescribePoint(point, elements) {
                 console.log('describe', point, elements)
+                inspectElements = elements
             },
             onDescribeSelector(selector, elements) {
                 console.log('describe', selector, elements)
@@ -46,7 +48,7 @@
 </script>
 
 <Header url={url}/>
-<Panel/>
+<Panel elements={inspectElements}/>
 {#if !url}
     <UrlForm on:url={onUrl}/>
 {:else if currentPageImage !== null}
