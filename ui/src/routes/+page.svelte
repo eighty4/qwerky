@@ -1,11 +1,12 @@
 <script lang="ts">
-    import {type Element, InspectPoint, OpenPage, type Point, type Rect, type Size} from 'qwerky-contract'
+    import {InspectPoint, OpenPage, type Point, type Rect, type Size} from 'qwerky-contract'
     import {onMount} from 'svelte'
     import Header from './app_header.svelte'
     import Panel from './app_panel.svelte'
     import Footer from './app_footer.svelte'
     import PageImage from './open_page.svelte'
     import UrlForm from './url_form.svelte'
+    import type InspectResult from '$lib/InspectResult'
     import {QwerkyClient} from '$lib/QwerkyClient.js'
 
     let qc: QwerkyClient
@@ -13,7 +14,7 @@
     let url: string | null = $state(null)
     let currentPageImage: { base64: string, size: Size } | null = $state(null)
     let boundingBoxData: Array<Rect> | null = $state(null)
-    let inspectElements: Array<Element> = $state([])
+    let inspectResult: InspectResult | null = $state(null)
 
     onMount(() => {
         qc = QwerkyClient.connect({
@@ -26,9 +27,10 @@
             },
             onDescribePoint(point, elements) {
                 console.log('describe', point, elements)
-                inspectElements = elements
+                inspectResult = {point, elements}
             },
             onDescribeSelector(selector, elements) {
+                inspectResult = {selector, elements}
                 console.log('describe', selector, elements)
             },
             onConnectionLost() {
@@ -45,13 +47,14 @@
     }
 
     function onInspectPoint(event: CustomEvent<Point>) {
+        inspectResult = null
         console.log(JSON.stringify(event.detail))
         qc.sendMessage(new InspectPoint(undefined, event.detail))
     }
 </script>
 
 <Header pageLoading={pageLoading} url={url}/>
-<Panel elements={inspectElements}/>
+<Panel inspectResult={inspectResult}/>
 {#if !url}
     <UrlForm on:url={onUrl}/>
 {:else if currentPageImage !== null}
