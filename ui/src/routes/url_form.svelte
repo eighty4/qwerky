@@ -48,16 +48,20 @@
 
 <style>
     .form-window {
+        --form-width: 30rem;
+        --form-height: 20rem;
         background: #000;
         border: 1px solid #fff;
         box-shadow: inset 0 0 0 1px hsla(0, 0%, 100%, .5), inset 0 0 0 2px hsla(0, 0%, 100%, .25), 0 0 0 1px hsla(0, 0%, 100%, .3), 0 0 0 2px hsla(0, 0%, 100%, .15);
         box-sizing: border-box;
-        padding: 5rem;
+        padding: 8vmin;
+        width: var(--form-width);
+        aspect-ratio: var(--form-aspect-ratio);
 
         /* position */
         position: fixed;
-        left: 50%;
-        top: 20%;
+        left: calc(50vw - ((var(--panel-width) + var(--form-width)) / 2));
+        top: calc(var(--header-height) + (50vh - var(--header-height) - (var(--form-height) / 2)));
     }
 
     .form-content {
