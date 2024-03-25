@@ -1,10 +1,11 @@
 <script lang="ts">
     import {createEventDispatcher} from 'svelte'
-    import {Point, type Rect, type Size} from 'qwerky-contract'
-    import BoundingBox from './bounding_box.svelte'
+    import {Point, type Size} from 'qwerky-contract'
+    import type {BoundingBox} from '$lib/BoundingBox'
+    import ElementHighlight from './element_highlight.svelte'
 
     interface OpenPageProps {
-        boundingBoxes: Array<Rect>
+        boundingBoxes?: Array<BoundingBox>
         imageBase64: string
         imageSize: Size
         url: string
@@ -27,22 +28,32 @@
 
 <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-noninteractive-element-interactions -->
 
-<img alt={`Screenshot of ${url}`} src={imageSrc} bind:this={imageElem} onclick={onClick}/>
+<div id="page" style="--page-img-src-w: {imageSize.width}; --page-img-src-h: {imageSize.height}">
+    <img alt={`Screenshot of ${url}`} src={imageSrc} bind:this={imageElem} onclick={onClick}/>
 
-{#if boundingBoxes}
-    {#each boundingBoxes as boundingBox}
-        <BoundingBox rect={boundingBox}/>
-    {/each}
-{/if}
+    {#if boundingBoxes}
+        {#each boundingBoxes as boundingBox}
+            <ElementHighlight color={boundingBox.color} rect={boundingBox.rect}/>
+        {/each}
+    {/if}
+</div>
 
 <style>
-    img {
+    #page {
+        --page-img-src-ar: calc(var(--page-img-src-w) / var(--page-img-src-h));
+        --page-img-scaled-h: calc(var(--page-img-src-h) * var(--page-img-src-ar));
+        --page-img-scale-w-r: calc(var(--page-img-scaled-w) / var(--page-img-src-w));
+        --page-img-scale-h-r: calc(var(--page-img-scaled-h) / var(--page-img-src-h));
+    }
+
+    #page img {
         box-sizing: border-box;
         position: relative;
         top: var(--header-height);
         padding-bottom: var(--footer-height);
         z-index: var(--page-img-z-index);
-        width: calc(100% - var(--panel-width));
-        aspect-ratio: var(--img-width, 1) / var(--img-height, 1);
+        width: var(--page-img-scaled-w);
+        height: var(--page-img-scaled-h);
+        /*aspect-ratio: var(--page-img-scaled-ar);*/
     }
 </style>

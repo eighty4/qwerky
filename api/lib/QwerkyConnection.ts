@@ -1,6 +1,6 @@
 import {EventEmitter} from 'node:events'
 import WebSocket from 'ws'
-import {type ApiRequest, type ApiResponse, BoundingBoxesData, InspectPoint, InspectSelector} from 'qwerky-contract'
+import {type ApiRequest, type ApiResponse, InspectPoint, InspectSelector} from 'qwerky-contract'
 import type {QwerkyPage, QwerkyPageProvider} from './QwerkyPage.js'
 
 enum QwerkyConnectionState {
@@ -77,13 +77,7 @@ export class QwerkyConnection extends EventEmitter {
             this.page = await this.pageProvider(sessionId)
             this.page.on('close', this.onBrowserPageClose)
         }
-        const reply = await this.page!.open(url)
-        if (process.env.QWERKY_POC_SCRAPE_BOUNDING_BOX === 'true') {
-            this.page.scrapeBoundingBoxes().then(boundingBoxes => {
-                this.ws.send(JSON.stringify(new BoundingBoxesData(sessionId, boundingBoxes)))
-            })
-        }
-        return reply
+        return this.page!.open(url)
     }
 
     private onBrowserPageClose = () => {

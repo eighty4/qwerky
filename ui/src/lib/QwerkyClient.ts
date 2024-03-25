@@ -2,19 +2,15 @@ import {v4} from 'uuid'
 import type {
     ApiRequest,
     ApiResponse,
-    BoundingBoxesData,
     Element,
     InspectPointData,
     InspectSelectorData,
     PageOpenedData,
     Point,
-    Rect,
     Size,
 } from 'qwerky-contract'
 
 export interface QwerkyMessageHandler {
-    onBoundingBoxes(boundingBoxes: Array<Rect>): void
-
     onImageData(image: string, size: Size | null): void
 
     onDescribePoint(point: Point, elements: Array<Element>): void
@@ -71,10 +67,6 @@ export class QwerkyClient {
                 } else {
                     throw new Error(`invalid describe message {${Object.keys(msg)}`)
                 }
-                break
-            case 'boundingBoxes':
-                msg = (msg as BoundingBoxesData)
-                this.messageHandler.onBoundingBoxes(msg.boundingBoxes)
                 break
             default:
         }
