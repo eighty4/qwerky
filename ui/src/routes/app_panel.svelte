@@ -1,7 +1,7 @@
 <script lang="ts">
     import PanelElement from '$lib/components/panel_element.svelte'
     import {getIndexedColor} from '$lib/colors'
-    import type InspectResult from '$lib/InspectResult'
+    import type {InspectResult} from '$lib/InspectResult'
 
     interface AppPanelProps {
         inspectResult?: InspectResult

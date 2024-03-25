@@ -6,7 +6,7 @@
     import Footer from './app_footer.svelte'
     import PageImage from './open_page.svelte'
     import UrlForm from './url_form.svelte'
-    import type InspectResult from '$lib/InspectResult'
+    import type {InspectResult} from '$lib/InspectResult'
     import {QwerkyClient} from '$lib/QwerkyClient.js'
 
     let qc: QwerkyClient
