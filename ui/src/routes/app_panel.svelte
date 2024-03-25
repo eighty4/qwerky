@@ -34,7 +34,7 @@
         width: var(--panel-width);
         top: var(--header-height);
         right: 0;
-        bottom: 0;
+        bottom: var(--footer-height);
         background: var(--panel-bg-color);
         z-index: var(--app-ui-z-index);
         box-sizing: border-box;

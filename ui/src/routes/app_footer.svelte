@@ -10,7 +10,7 @@
     footer {
         position: fixed;
         height: var(--footer-height);
-        right: var(--panel-width);
+        right: 0;
         left: 0;
         bottom: 0;
         background: var(--panel-bg-color);
