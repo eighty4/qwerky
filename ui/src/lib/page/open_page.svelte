@@ -1,8 +1,8 @@
 <script lang="ts">
     import {createEventDispatcher} from 'svelte'
     import {Point, type Size} from 'qwerky-contract'
-    import type {BoundingBox} from '$lib/BoundingBox'
-    import ElementHighlight from './element_highlight.svelte'
+    import type {BoundingBox} from '$lib/data/BoundingBox'
+    import ElementHighlight from '$lib/page/element_highlight.svelte'
 
     interface OpenPageProps {
         boundingBoxes?: Array<BoundingBox>

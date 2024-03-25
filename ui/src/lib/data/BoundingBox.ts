@@ -1,5 +1,5 @@
 import type {Element, Rect} from 'qwerky-contract'
-import {getIndexedColor} from '$lib/colors'
+import {getIndexedColor} from '$lib/data/colors'
 
 export interface BoundingBox {
     color: string

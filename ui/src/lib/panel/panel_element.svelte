@@ -1,6 +1,6 @@
 <script lang="ts">
     import type {Element} from 'qwerky-contract'
-    import TagName from './tag_name.svelte'
+    import TagName from '$lib/components/tag_name.svelte'
 
     interface PanelElementProps {
         color: string
