@@ -32,7 +32,7 @@
     <img alt={`Screenshot of ${url}`} src={imageSrc} bind:this={imageElem} onclick={onClick}/>
 
     {#if boundingBoxes}
-        {#each boundingBoxes as boundingBox}
+        {#each boundingBoxes.reverse() as boundingBox}
             <ElementHighlight color={boundingBox.color} rect={boundingBox.rect}/>
         {/each}
     {/if}
