@@ -4,7 +4,7 @@
     import PanelElement from '$lib/panel/panel_element.svelte'
 
     interface AppPanelProps {
-        inspectResult?: InspectResult
+        inspectResult: InspectResult | null
     }
 
     let {inspectResult}: AppPanelProps = $props()

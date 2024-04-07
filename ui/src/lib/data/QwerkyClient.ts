@@ -1,13 +1,13 @@
 import {v4} from 'uuid'
-import type {
-    ApiRequest,
-    ApiResponse,
-    Element,
-    InspectPointData,
-    InspectSelectorData,
-    PageOpenedData,
-    Point,
-    Size,
+import {
+    type ApiRequest,
+    type ApiResponse,
+    type Element,
+    type InspectPointData,
+    type InspectSelectorData,
+    type PageOpenedData,
+    type Point,
+    type Size,
 } from 'qwerky-contract'
 
 export interface QwerkyMessageHandler {
@@ -22,27 +22,19 @@ export interface QwerkyMessageHandler {
 
 export class QwerkyClient {
 
-    static connect(messageHandler: QwerkyMessageHandler): QwerkyClient {
-        return new QwerkyClient(new WebSocket(`ws://${location.host}/api`), messageHandler)
+    static async connect(messageHandler: QwerkyMessageHandler): Promise<QwerkyClient> {
+        const client = new QwerkyClient(new WebSocket(`ws://${location.host}/api`), messageHandler)
+        return new Promise((res) => client.webSocket.onopen = () => res(client))
     }
 
     private readonly sessionId = v4()
 
     constructor(private readonly webSocket: WebSocket,
                 private readonly messageHandler: QwerkyMessageHandler) {
-        this.webSocket.onopen = this.onopen
         this.webSocket.onclose = this.onclose
+        this.webSocket.onerror = this.onerror
         this.webSocket.onmessage = this.onmessage
     }
-
-    onopen = () => console.log('ws connected')
-
-    onclose = ({code}: CloseEvent) => {
-        console.log('ws closed', code)
-        this.messageHandler.onConnectionLost()
-    }
-
-    onmessage = ({data}: MessageEvent) => this.handleMessage(JSON.parse(data))
 
     sendMessage(message: ApiRequest) {
         (message as any).sessionId = this.sessionId
@@ -50,7 +42,18 @@ export class QwerkyClient {
         this.webSocket.send(JSON.stringify(message))
     }
 
-    handleMessage(msg: ApiResponse) {
+    private onclose = ({code}: CloseEvent) => {
+        console.log('ws closed', code)
+        this.messageHandler.onConnectionLost()
+    }
+
+    private onerror = (e: Event) => {
+        console.log('ws error', e.type)
+    }
+
+    private onmessage = ({data}: MessageEvent) => this.handleMessage(JSON.parse(data))
+
+    private handleMessage(msg: ApiResponse) {
         console.log('ws recv', msg)
         switch (msg.messageType) {
             case 'image':

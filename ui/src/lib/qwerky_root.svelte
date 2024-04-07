@@ -3,8 +3,7 @@
 <style>
     :root {
         --header-height: 4rem;
-        --panel-width: calc(100% - var(--page-img-scaled-w));
-        --page-img-scaled-w: min(75vw, calc(100% - 20rem));
+        --panel-width: max(25vw, 20rem);
         --footer-height: 3rem;
         --panel-bg-color: rgba(0 0 0 / 93%);
         --app-ui-z-index: 3;

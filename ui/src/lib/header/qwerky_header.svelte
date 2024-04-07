@@ -1,7 +1,7 @@
 <script lang="ts">
     interface AppHeaderProps {
         pageLoading: boolean
-        url?: string
+        url: string | null
     }
 
     let {pageLoading, url}: AppHeaderProps = $props()

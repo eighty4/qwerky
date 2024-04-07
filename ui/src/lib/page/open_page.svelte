@@ -2,34 +2,94 @@
     import {createEventDispatcher} from 'svelte'
     import {Point, type Size} from 'qwerky-contract'
     import type {BoundingBox} from '$lib/data/BoundingBox'
-    import ElementHighlight from '$lib/page/element_highlight.svelte'
+    import ElementHighlight from './element_highlight.svelte'
 
     interface OpenPageProps {
-        boundingBoxes?: Array<BoundingBox>
+        boundingBoxes: Array<BoundingBox> | null
         imageBase64: string
         imageSize: Size
-        url: string
     }
 
-    let {boundingBoxes, imageBase64, imageSize, url}: OpenPageProps = $props()
+    let {boundingBoxes, imageBase64, imageSize}: OpenPageProps = $props()
 
     const dispatch = createEventDispatcher<{ inspectPoint: Point }>()
 
     let imageSrc = $derived('data:image/png;base64,' + imageBase64)
-    let imageElem: HTMLImageElement
+
+    let pageElem: HTMLDivElement
+
+    let panning: boolean = $state(false)
+    let mouseDownY: false | number
+    let panStartY: number = 0
+    let panY: number = 0
+    let scrollY: number = 0
+
+    function onMouseDown(e: MouseEvent) {
+        mouseDownY = e.offsetY
+    }
 
     function onClick(e: MouseEvent) {
-        const scaledClickX = Math.floor((e.offsetX * imageSize.width) / imageElem.width)
-        const scaledClickY = Math.floor((e.offsetY * imageSize.height) / imageElem.height)
-        // todo this scaled click point is miscalculated by ~(+10, +3) px
-        dispatch('inspectPoint', new Point(scaledClickX, scaledClickY))
+        if (panning) {
+            clearPanning()
+            return
+        }
+        mouseDownY = false
+        if (scrollY > 0 && scrollY > e.offsetY) {
+            return
+        }
+        const pageRatio = pageElem.clientWidth / imageSize.width
+        const imageScaledHeight = pageRatio * imageSize.height
+        const viewportClickY = Math.abs(scrollY - e.offsetY)
+        if (viewportClickY > imageScaledHeight) {
+            return
+        }
+        const clickY = Math.floor((viewportClickY / imageScaledHeight) * imageSize.height)
+        const clickX = Math.floor((e.offsetX * imageSize.width) / pageElem.clientWidth)
+        dispatch('inspectPoint', new Point(clickX, clickY))
+    }
+
+    function onMouseMove(e: MouseEvent) {
+        if (!panning) {
+            if (mouseDownY !== false && Math.abs(mouseDownY - e.offsetY) > 5) {
+                startPanning(e.offsetY)
+            } else {
+                return
+            }
+        }
+        panY = (panStartY - e.offsetY) * -2
+        pageElem.style.setProperty('--page-scroll-y', (panY + scrollY) + 'px')
+    }
+
+    function startPanning(y: number) {
+        console.log('start panning')
+        mouseDownY = false
+        panning = true
+        panStartY = y
+    }
+
+    function clearPanning() {
+        if (panning) {
+            console.log('stop panning')
+            mouseDownY = false
+            panning = false
+            scrollY += panY
+            pageElem.style.setProperty('--page-scroll-y', scrollY + 'px')
+        }
     }
 </script>
 
-<!-- svelte-ignore a11y-click-events-have-key-events a11y-no-noninteractive-element-interactions -->
+<!-- svelte-ignore a11y-click-events-have-key-events a11y-mouse-events-have-key-events a11y-no-noninteractive-element-interactions -->
 
-<div id="page" style="--page-img-src-w: {imageSize.width}; --page-img-src-h: {imageSize.height}">
-    <img alt={`Screenshot of ${url}`} src={imageSrc} bind:this={imageElem} onclick={onClick}/>
+<div id="page"
+     class:panning={panning}
+     bind:this={pageElem}
+     style="--page-img-w: {imageSize.width}; --page-img-h: {imageSize.height}; --page-img-url: url('{imageSrc}');"
+     role="img"
+     onclick={onClick}
+     onmousedown={onMouseDown}
+     onmouseleave={clearPanning}
+     onmousemove={onMouseMove}
+     onmouseout={clearPanning}>
 
     {#if boundingBoxes}
         {#each boundingBoxes.reverse() as boundingBox}
@@ -40,20 +100,26 @@
 
 <style>
     #page {
-        --page-img-src-ar: calc(var(--page-img-src-w) / var(--page-img-src-h));
-        --page-img-scaled-h: calc(var(--page-img-src-h) * var(--page-img-src-ar));
-        --page-img-scale-w-r: calc(var(--page-img-scaled-w) / var(--page-img-src-w));
-        --page-img-scale-h-r: calc(var(--page-img-scaled-h) / var(--page-img-src-h));
+        --page-viewport-h: calc(100vh - var(--header-height) - var(--footer-height));
+        --page-viewport-w: calc(100vw - var(--panel-width));
+        --page-img-ar: calc(var(--page-img-w) / var(--page-img-h));
+        --page-scale-ar: calc(var(--page-scaled-w) / var(--page-img-w));
+        --page-scaled-w: var(--page-viewport-w);
+        --page-scaled-h: calc((var(--page-viewport-w) / var(--page-img-w)) * var(--page-img-h));
+        --page-scroll-y: 0px;
+        position: fixed;
+        top: var(--header-height);
+        background-image: var(--page-img-url);
+        background-position-y: var(--page-scroll-y);
+        background-repeat: no-repeat;
+        background-size: cover;
+        height: var(--page-viewport-h);
+        width: var(--page-viewport-w);
+        user-select: none;
+        cursor: grab;
     }
 
-    #page img {
-        box-sizing: border-box;
-        position: relative;
-        top: var(--header-height);
-        padding-bottom: var(--footer-height);
-        z-index: var(--page-img-z-index);
-        width: var(--page-img-scaled-w);
-        height: var(--page-img-scaled-h);
-        /*aspect-ratio: var(--page-img-scaled-ar);*/
+    #page.panning {
+        cursor: grabbing;
     }
 </style>
