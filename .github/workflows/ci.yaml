@@ -13,6 +13,7 @@ jobs:
     needs:
       - check
       - build
+      - test
     steps:
       - run: echo "The moon is made of a green cheese!"
 
@@ -42,3 +43,29 @@ jobs:
         run: corepack enable && corepack prepare pnpm@latest --activate
       - name: pnpm -r build
         run: pnpm i && pnpm -r build
+
+  test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: activate pnpm
+        run: corepack enable && corepack prepare pnpm@latest --activate
+      - name: pnpm i
+        run: pnpm i
+      - name: playwright
+        env:
+          CI: true
+        run: |
+          pnpm exec playwright install --with-deps
+          pnpm exec playwright test
+        working-directory: ui
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: test/playwright-report/
+          retention-days: 30

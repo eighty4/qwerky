@@ -10,13 +10,14 @@ export default defineConfig({
     workers: process.env.CI ? 1 : undefined,
     reporter: process.env.CI ? 'html' : 'null',
     use: {
+        baseURL: `http://localhost:${process.env.CI ? 4173 : 5395}`,
         trace: 'on-first-retry',
     },
 
     /* Configure projects for major browsers */
     projects: [
         {
-            name: 'chromium',
+            name: 'chrome',
             use: {...devices['Desktop Chrome']},
         },
         {
@@ -24,14 +25,14 @@ export default defineConfig({
             use: {...devices['Desktop Firefox']},
         },
         {
-            name: 'webkit',
+            name: 'safari',
             use: {...devices['Desktop Safari']},
         },
     ],
 
     webServer: {
-        command: 'pnpm dev',
-        url: 'http://localhost:5395',
+        command: './e2e_start.sh',
+        url: `http://localhost:${process.env.CI ? 4173 : 5395}`,
         reuseExistingServer: !process.env.CI,
     },
 })

@@ -1,7 +1,7 @@
 import type {Locator, Page} from '@playwright/test'
 
 export async function openUrl(page: Page, url: string): Promise<void> {
-    await page.goto('http://localhost:5395/')
+    await page.goto('/')
     await page.locator('#url-input').click()
     await page.locator('#url-input').pressSequentially(url)
     await page.locator('#url-input').blur()
@@ -9,7 +9,7 @@ export async function openUrl(page: Page, url: string): Promise<void> {
     await page.locator('#page').isVisible()
 }
 
-export async function clickInPage(page: Page, point: {x: number, y: number}): Promise<void> {
+export async function clickInPage(page: Page, point: { x: number, y: number }): Promise<void> {
     await page.locator('#page').evaluate((pageElement, point: { x: number, y: number }) => {
         pageElement.dispatchEvent(new MouseEvent('click', {
             bubbles: true,
@@ -56,10 +56,11 @@ export async function scrollInPage(page: Page, scrollY: number): Promise<void> {
     }, scrollY)
 }
 
-export async function getComputedStyles(locator: Locator): Promise<CSSStyleDeclaration> {
-    return await locator.evaluate((pageElement) => {
-        return window.getComputedStyle(pageElement)
-    })
+export async function getComputedStyle(locator: Locator, property: string): Promise<string> {
+    return await locator.evaluate((pageElement, property) => {
+        // @ts-ignore
+        return window.getComputedStyle(pageElement)[property]
+    }, property)
 }
 
 export async function getPropertyValue(locator: Locator, property: string): Promise<string> {
