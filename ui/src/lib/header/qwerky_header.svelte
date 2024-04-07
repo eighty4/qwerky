@@ -60,7 +60,7 @@
         align-items: center;
 
         background: var(--panel-bg-color);
-        padding: 0 3rem;
+        padding: 0 4rem;
         z-index: var(--app-ui-z-index);
     }
 

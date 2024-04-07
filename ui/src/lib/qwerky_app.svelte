@@ -51,6 +51,9 @@
 
 <Header pageLoading={pageLoading} url={url}/>
 <Panel inspectResult={inspectResult}/>
+<div style="background: var(--panel-bg-color); position: fixed; top: var(--header-height); left: 0; bottom: var(--footer-height); width: var(--edge-width);"></div>
+<Footer/>
+
 {#if qwerkyClient}
     {#if !url}
         <UrlForm on:url={onUrl}/>
@@ -61,4 +64,3 @@
                    on:inspectPoint={onInspectPoint}/>
     {/if}
 {/if}
-<Footer/>

@@ -1,5 +1,5 @@
 import {expect, type PlaywrightTestArgs, test} from '@playwright/test'
-import {clickInPage, getComputedStyle, getPropertyValue, openUrl, scrollInPage} from './page.test.util'
+import {clickInPage, extractFloat, getComputedStyle, getPropertyValue, openUrl, scrollInPage} from './page.test.util'
 
 test('page click adds element highlight', async ({page}: PlaywrightTestArgs) => {
     await openUrl(page, 'https://eighty4.tech')
@@ -13,10 +13,10 @@ test('page click adds element highlight', async ({page}: PlaywrightTestArgs) => 
     expect(await getPropertyValue(h1HighlightLocator, '--element-y')).toBe('48')
     expect(await getPropertyValue(h1HighlightLocator, '--highlight-color')).toBe('#3cb9fc')
 
-    expect(await getComputedStyle(h1HighlightLocator, 'width')).toBe('178.5px')
+    expect(extractFloat(await getComputedStyle(h1HighlightLocator, 'width'))).toBe(172)
     expect(await getComputedStyle(h1HighlightLocator, 'aspectRatio')).toBe('238 / 69')
-    expect(await getComputedStyle(h1HighlightLocator, 'top')).toBe('36px')
-    expect(await getComputedStyle(h1HighlightLocator, 'left')).toBe('192px')
+    expect(extractFloat(await getComputedStyle(h1HighlightLocator, 'top'))).toBe(34)
+    expect(extractFloat(await getComputedStyle(h1HighlightLocator, 'left'))).toBe(185)
     expect(await getComputedStyle(h1HighlightLocator, 'border')).toBe('3px solid rgb(60, 185, 252)')
 })
 
@@ -26,8 +26,8 @@ test('page scrolling maintains highlight position', async ({page}: PlaywrightTes
 
     const h1HighlightLocator = page.locator('.highlight-2')
     await h1HighlightLocator.isVisible()
-    expect(await getComputedStyle(h1HighlightLocator, 'top')).toBe('36px')
+    expect(extractFloat(await getComputedStyle(h1HighlightLocator, 'top'))).toBe(34)
 
     await scrollInPage(page, -200)
-    expect(await getComputedStyle(h1HighlightLocator, 'top')).toBe('-164px')
+    expect(extractFloat(await getComputedStyle(h1HighlightLocator, 'top'))).toBe(-166)
 })

@@ -100,7 +100,7 @@
 <style>
     #page {
         --page-viewport-h: calc(100vh - var(--header-height) - var(--footer-height));
-        --page-viewport-w: calc(100vw - var(--panel-width));
+        --page-viewport-w: calc(100vw - var(--edge-width) - var(--panel-width));
         --page-img-ar: calc(var(--page-img-w) / var(--page-img-h));
         --page-scale-ar: calc(var(--page-scaled-w) / var(--page-img-w));
         --page-scaled-w: var(--page-viewport-w);
@@ -108,6 +108,7 @@
         --page-scroll-y: 0px;
         position: fixed;
         top: var(--header-height);
+        left: var(--edge-width);
         background-image: var(--page-img-url);
         background-position-y: var(--page-scroll-y);
         background-repeat: no-repeat;

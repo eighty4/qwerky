@@ -69,9 +69,9 @@ export async function getPropertyValue(locator: Locator, property: string): Prom
     }, property)
 }
 
-export async function computePropertyValues(locator: Locator, properties: Array<string>): Promise<Record<string, string | null>> {
+export async function computePropertyValues(locator: Locator, properties: Array<string>): Promise<Record<string, string>> {
     const result = await locator.evaluate((pageElement, properties) => {
-        const result: Record<string, string | null> = {}
+        const result: Record<string, string> = {}
         for (const key of properties) {
             const div = document.createElement('div')
             pageElement.appendChild(div)
@@ -83,7 +83,7 @@ export async function computePropertyValues(locator: Locator, properties: Array<
                 result[key] = window.getComputedStyle(div).top
             }
             if (result[key] === '64px') {
-                result[key] = null
+                delete result[key]
             }
             div.remove()
         }
@@ -95,4 +95,8 @@ export async function computePropertyValues(locator: Locator, properties: Array<
         }
     }
     return result
+}
+
+export function extractFloat(s: string): number {
+    return Math.floor(parseFloat(s.endsWith('px') ? s.slice(0, -2) : s))
 }
