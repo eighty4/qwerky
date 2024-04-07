@@ -52,9 +52,8 @@
         if (!panning) {
             if (mouseDownY !== false && Math.abs(mouseDownY - e.offsetY) > 5) {
                 startPanning(e.offsetY)
-            } else {
-                return
             }
+            return
         }
         panY = (panStartY - e.offsetY) * -2
         pageElem.style.setProperty('--page-scroll-y', (panY + scrollY) + 'px')
@@ -92,8 +91,8 @@
      onmouseout={clearPanning}>
 
     {#if boundingBoxes}
-        {#each boundingBoxes.reverse() as boundingBox}
-            <ElementHighlight color={boundingBox.color} rect={boundingBox.rect}/>
+        {#each boundingBoxes.reverse() as boundingBox, i}
+            <ElementHighlight color={boundingBox.color} index={i} rect={boundingBox.rect}/>
         {/each}
     {/if}
 </div>
@@ -112,7 +111,7 @@
         background-image: var(--page-img-url);
         background-position-y: var(--page-scroll-y);
         background-repeat: no-repeat;
-        background-size: cover;
+        background-size: 100%;
         height: var(--page-viewport-h);
         width: var(--page-viewport-w);
         user-select: none;
