@@ -15,7 +15,7 @@
     let url: string | null = $state(null)
     let currentPageImage: { base64: string, size: Size } | null = $state(null)
     let inspectResult: InspectResult | null = $state(null)
-    let boundingBoxes: Array<BoundingBox> | null = $derived(buildBoundingBoxes(inspectResult?.elements))
+    let boundingBoxes: Array<BoundingBox> | null = $derived.by(() => buildBoundingBoxes(inspectResult?.elements))
 
     onMount(() => QwerkyClient.connect({
         onImageData(base64, size: Size) {
@@ -39,13 +39,13 @@
         pageLoading = true
         url = event.detail
         console.log(JSON.stringify(url))
-        qwerkyClient!.sendMessage(new OpenPage(undefined, url))
+        qwerkyClient!.sendMessage(new OpenPage(qwerkyClient!.sessionId, url))
     }
 
     function onInspectPoint(event: CustomEvent<Point>) {
         inspectResult = null
         console.log(JSON.stringify(event.detail))
-        qwerkyClient!.sendMessage(new InspectPoint(undefined, event.detail))
+        qwerkyClient!.sendMessage(new InspectPoint(qwerkyClient!.sessionId, event.detail))
     }
 </script>
 
@@ -55,8 +55,7 @@
     {#if !url}
         <UrlForm on:url={onUrl}/>
     {:else if currentPageImage !== null}
-        <PageImage url={url}
-                   imageBase64={currentPageImage.base64}
+        <PageImage imageBase64={currentPageImage.base64}
                    imageSize={currentPageImage.size}
                    boundingBoxes={boundingBoxes}
                    on:inspectPoint={onInspectPoint}/>

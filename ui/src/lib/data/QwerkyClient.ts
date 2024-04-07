@@ -27,7 +27,7 @@ export class QwerkyClient {
         return new Promise((res) => client.webSocket.onopen = () => res(client))
     }
 
-    private readonly sessionId = v4()
+    readonly sessionId: string = v4()
 
     constructor(private readonly webSocket: WebSocket,
                 private readonly messageHandler: QwerkyMessageHandler) {
