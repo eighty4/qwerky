@@ -41,9 +41,7 @@ export class QwerkyPage extends EventEmitter {
         const encodedImage = imageBuffer.toString('base64')
         const size = await this.page.evaluate((): Size => {
             return {
-                // @ts-ignore
                 width: document.body.scrollWidth,
-                // @ts-ignore
                 height: document.body.scrollHeight,
             }
         })
@@ -62,16 +60,13 @@ export class QwerkyPage extends EventEmitter {
 
     async inspectPoint(point: Point): Promise<InspectPointData> {
         const inspectPointInPage: (point: Point) => Array<Element> = point => {
-            // @ts-ignore
             window.scrollTo(0, point.y - 1)
             const elements: Array<Element> = []
-            // @ts-ignore
             for (const element of document.elementsFromPoint(point.x, 1)) {
                 if (element.tagName === 'BODY') {
                     break
                 }
                 const boundingClientRect = element.getBoundingClientRect()
-                // @ts-ignore
                 const {scrollX, scrollY} = window
                 elements.push({
                     tagName: element.tagName,
@@ -96,7 +91,6 @@ export class QwerkyPage extends EventEmitter {
 
     async addDebugMarker(point: Point) {
         await this.page.evaluate((point) => {
-            // @ts-ignore
             const div = document.createElement('div')
             div.style.width = '5px'
             div.style.height = '5px'
@@ -104,7 +98,6 @@ export class QwerkyPage extends EventEmitter {
             div.style.position = 'absolute'
             div.style.top = (point.y - 2) + 'px'
             div.style.left = (point.x - 2) + 'px'
-            // @ts-ignore
             document.body.appendChild(div)
         }, point)
     }
