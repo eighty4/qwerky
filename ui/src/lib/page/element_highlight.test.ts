@@ -15,8 +15,8 @@ test('page click adds element highlight', async ({page}: PlaywrightTestArgs) => 
 
     expect(extractFloat(await getComputedStyle(h1HighlightLocator, 'width'))).toBe(172)
     expect(await getComputedStyle(h1HighlightLocator, 'aspectRatio')).toBe('238 / 69')
-    expect(extractFloat(await getComputedStyle(h1HighlightLocator, 'top'))).toBe(34)
-    expect(extractFloat(await getComputedStyle(h1HighlightLocator, 'left'))).toBe(185)
+    expect(extractFloat(await getComputedStyle(h1HighlightLocator, 'top'))).toBe(31)
+    expect(extractFloat(await getComputedStyle(h1HighlightLocator, 'left'))).toBe(182)
     expect(await getComputedStyle(h1HighlightLocator, 'border')).toBe('3px solid rgb(60, 185, 252)')
 })
 
@@ -26,8 +26,8 @@ test('page scrolling maintains highlight position', async ({page}: PlaywrightTes
 
     const h1HighlightLocator = page.locator('.highlight-2')
     await h1HighlightLocator.isVisible()
-    expect(extractFloat(await getComputedStyle(h1HighlightLocator, 'top'))).toBe(34)
+    expect(extractFloat(await getComputedStyle(h1HighlightLocator, 'top'))).toBe(31)
 
     await scrollInPage(page, -200)
-    expect(extractFloat(await getComputedStyle(h1HighlightLocator, 'top'))).toBe(-166)
+    expect(extractFloat(await getComputedStyle(h1HighlightLocator, 'top'))).toBe(-169)
 })

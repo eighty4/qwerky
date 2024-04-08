@@ -49,11 +49,6 @@
     }
 </script>
 
-<Header pageLoading={pageLoading} url={url}/>
-<Panel inspectResult={inspectResult}/>
-<div style="background: var(--panel-bg-color); position: fixed; top: var(--header-height); left: 0; bottom: var(--footer-height); width: var(--edge-width);"></div>
-<Footer/>
-
 {#if qwerkyClient}
     {#if !url}
         <UrlForm on:url={onUrl}/>
@@ -64,3 +59,49 @@
                    on:inspectPoint={onInspectPoint}/>
     {/if}
 {/if}
+
+<Header pageLoading={pageLoading} url={url}/>
+<Panel inspectResult={inspectResult}/>
+<Footer/>
+
+<!-- todo offsetting stacked highlights to not overlap requires extending highlight buffer by highlight count -->
+<div class="hb t"/>
+<div class="hb l"/>
+<div class="hb b"/>
+<div class="hb r"/>
+
+<style>
+    .hb {
+        background: var(--panel-bg-color);
+        position: fixed;
+        z-index: var(--panel-bg-z-index);
+    }
+
+    .hb.t {
+        height: var(--highlight-width);
+        top: calc(var(--header-height) - var(--highlight-width));
+        left: 0;
+        right: 0;
+    }
+
+    .hb.l {
+        top: var(--header-height);
+        left: 0;
+        bottom: var(--footer-height);
+        width: var(--edge-width);
+    }
+
+    .hb.b {
+        height: var(--highlight-width);
+        bottom: calc(var(--footer-height) - var(--highlight-width));
+        left: 0;
+        right: 0;
+    }
+
+    .hb.r {
+        top: var(--header-height);
+        right: calc(var(--panel-width) - var(--highlight-width));
+        bottom: var(--footer-height);
+        width: var(--highlight-width);
+    }
+</style>

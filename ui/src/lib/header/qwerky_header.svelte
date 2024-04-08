@@ -51,7 +51,7 @@
 <style>
     header {
         position: fixed;
-        height: var(--header-height);
+        height: calc(var(--header-height) - var(--highlight-width));
         top: 0;
         left: 0;
         right: 0;

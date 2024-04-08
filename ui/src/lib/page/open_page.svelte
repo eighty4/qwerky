@@ -117,6 +117,7 @@
         width: var(--page-viewport-w);
         user-select: none;
         cursor: grab;
+        z-index: var(--page-img-z-index);
     }
 
     #page.panning {

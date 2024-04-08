@@ -31,7 +31,7 @@
 <style>
     aside {
         position: fixed;
-        width: var(--panel-width);
+        width: calc(var(--panel-width) - var(--highlight-width));
         top: var(--header-height);
         right: 0;
         bottom: var(--footer-height);

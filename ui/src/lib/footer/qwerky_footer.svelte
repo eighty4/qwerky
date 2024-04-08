@@ -9,7 +9,7 @@
 <style>
     footer {
         position: fixed;
-        height: var(--footer-height);
+        height: calc(var(--footer-height) - var(--highlight-width));
         right: 0;
         left: 0;
         bottom: 0;
