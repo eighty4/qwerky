@@ -1,5 +1,6 @@
 import {expect, type Locator, test} from '@playwright/test'
 import {
+    clickInPage,
     computePropertyValues,
     extractFloat,
     getComputedStyle,
@@ -58,6 +59,13 @@ test('scroll offsets page background image', async ({page}, testInfo) => {
             scaleAspectRatio: testInfo.project.name === 'firefox' ? 0.733333 : 0.725,
         },
     })
+})
+
+test('scroll to bottom page edge offsets api calc click position', async ({page}) => {
+    await openUrl(page, 'https://eighty4.tech')
+    await scrollInPage(page, -800)
+    await clickInPage(page, {x: 300, y: 500})
+    await page.locator('#panel').getByText('.project.velcro').isVisible()
 })
 
 interface PageDimensions {

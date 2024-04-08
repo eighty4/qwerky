@@ -60,9 +60,11 @@ export class QwerkyPage extends EventEmitter {
 
     async inspectPoint(point: Point): Promise<InspectPointData> {
         const inspectPointInPage: (point: Point) => Array<Element> = point => {
-            window.scrollTo(0, point.y - 1)
+            const scrollToY = point.y - 1
+            window.scrollTo(0, scrollToY)
+            const clickAtY = scrollToY - document.documentElement.scrollTop
             const elements: Array<Element> = []
-            for (const element of document.elementsFromPoint(point.x, 1)) {
+            for (const element of document.elementsFromPoint(point.x, clickAtY)) {
                 if (element.tagName === 'BODY') {
                     break
                 }
