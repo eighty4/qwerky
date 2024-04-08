@@ -1,5 +1,5 @@
 {
-  "name": "qwerky-contract",
+  "name": "@eighty4/qwerky-contract",
   "version": "0.0.1",
   "license": "BSD-3-Clause",
   "type": "module",
