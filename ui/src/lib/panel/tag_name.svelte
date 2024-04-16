@@ -8,13 +8,16 @@
 </script>
 
 <span style="--highlight-color: {color}">
-    <span class="bracket">{'<'}</span>
-    <span class="label">{label}</span>
-    <span class="bracket">{'>'}</span>
+    {label}
 </span>
 
 <style>
-    .bracket {
-        color: var(--highlight-color);
+    span {
+        border: 2px solid var(--highlight-color);
+        display: inline-block;
+        font-size: .8rem;
+        font-weight: bold;
+        padding: .25rem .5rem;
+        border-radius: .25rem;
     }
 </style>
