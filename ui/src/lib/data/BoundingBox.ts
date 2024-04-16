@@ -7,10 +7,7 @@ export interface BoundingBox {
     rect: Rect
 }
 
-export function buildBoundingBoxes(elements?: Array<Element>): Array<BoundingBox> | null {
-    if (!elements) {
-        return null
-    }
+export function buildBoundingBoxes(elements: Array<Element>): Array<BoundingBox> {
     return elements.map<BoundingBox>((element, i) => {
         return {
             color: getIndexedColor(i),

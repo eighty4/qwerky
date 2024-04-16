@@ -1,25 +1,25 @@
 <script lang="ts">
     import {getIndexedColor} from '$lib/data/colors'
-    import type {InspectResult} from '$lib/data/InspectResult'
+    import type {AppData} from '$lib/data/AppData.svelte'
     import PanelElement from '$lib/panel/panel_element.svelte'
 
     interface AppPanelProps {
-        inspectResult: InspectResult | null
+        appData: AppData
     }
 
-    let {inspectResult}: AppPanelProps = $props()
+    let {appData}: AppPanelProps = $props()
 </script>
 
 <aside>
-    {#if inspectResult}
+    {#if appData.focusedInspection}
         <div class="inspect-source">
-            {#if inspectResult.point}
-                Point ({inspectResult.point.x}, {inspectResult.point.y})
-            {:else if inspectResult.selector}
-                Selector {`\`${inspectResult.selector}\``}
+            {#if appData.focusedInspection.result.point}
+                Point ({appData.focusedInspection.result.point.x}, {appData.focusedInspection.result.point.y})
+            {:else if appData.focusedInspection.result.selector}
+                Selector {`\`${appData.focusedInspection.result.selector}\``}
             {/if}
         </div>
-        {#each inspectResult.elements as element, i}
+        {#each appData.focusedInspection.result.elements as element, i}
             <div class="element-container">
                 <PanelElement color={getIndexedColor(i)} element={element}/>
             </div>
