@@ -1,4 +1,4 @@
-import type {Element, Point} from 'qwerky-contract'
+import type {Element, Point} from '@eighty4/qwerky-contract'
 
 export interface InspectResult {
     elements: Array<Element>

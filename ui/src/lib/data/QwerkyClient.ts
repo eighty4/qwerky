@@ -8,7 +8,7 @@ import {
     type PageOpenedData,
     type Point,
     type Size,
-} from 'qwerky-contract'
+} from '@eighty4/qwerky-contract'
 
 export interface QwerkyMessageHandler {
     onImageData(image: string, size: Size | null): void

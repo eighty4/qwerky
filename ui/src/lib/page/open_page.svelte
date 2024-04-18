@@ -1,6 +1,6 @@
 <script lang="ts">
     import {createEventDispatcher} from 'svelte'
-    import {Point, type Size} from 'qwerky-contract'
+    import {Point, type Size} from '@eighty4/qwerky-contract'
     import type {BoundingBox} from '$lib/data/BoundingBox'
     import ElementHighlight from './element_highlight.svelte'
 

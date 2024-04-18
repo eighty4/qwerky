@@ -1,4 +1,4 @@
-import {installPlaywrightBrowsers, QwerkyApi} from 'qwerky-api'
+import {installPlaywrightBrowsers, QwerkyApi} from '@eighty4/qwerky-api'
 import {serveBuiltFiles} from './FrontendRequestListener.js'
 
 installPlaywrightBrowsers().then(startQwerkyApi)

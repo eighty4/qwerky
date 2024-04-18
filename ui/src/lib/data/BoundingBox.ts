@@ -1,4 +1,4 @@
-import type {Element, Rect} from 'qwerky-contract'
+import type {Element, Rect} from '@eighty4/qwerky-contract'
 import {getIndexedColor} from '$lib/data/colors'
 
 export interface BoundingBox {

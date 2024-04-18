@@ -1,6 +1,6 @@
 <script lang="ts">
     import {onMount} from 'svelte'
-    import {InspectPoint, OpenPage, type Point, type Size} from 'qwerky-contract'
+    import {InspectPoint, OpenPage, type Point, type Size} from '@eighty4/qwerky-contract'
     import {type BoundingBox, buildBoundingBoxes} from '$lib/data/BoundingBox'
     import type {InspectResult} from '$lib/data/InspectResult'
     import {QwerkyClient} from '$lib/data/QwerkyClient.js'
@@ -65,10 +65,10 @@
 <Footer/>
 
 <!-- todo offsetting stacked highlights to not overlap requires extending highlight buffer by highlight count -->
-<div class="hb t"/>
-<div class="hb l"/>
-<div class="hb b"/>
-<div class="hb r"/>
+<div class="hb t"></div>
+<div class="hb l"></div>
+<div class="hb b"></div>
+<div class="hb r"></div>
 
 <style>
     .hb {

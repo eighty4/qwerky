@@ -8,7 +8,7 @@ import {
     type Point,
     type Rect,
     type Size,
-} from 'qwerky-contract'
+} from '@eighty4/qwerky-contract'
 
 export type QwerkyPageProvider = (id: any) => Promise<QwerkyPage>
 

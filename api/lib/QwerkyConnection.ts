@@ -1,6 +1,6 @@
 import {EventEmitter} from 'node:events'
 import WebSocket from 'ws'
-import {type ApiRequest, type ApiResponse, InspectPoint, InspectSelector} from 'qwerky-contract'
+import {type ApiRequest, type ApiResponse, InspectPoint, InspectSelector} from '@eighty4/qwerky-contract'
 import type {QwerkyPage, QwerkyPageProvider} from './QwerkyPage.js'
 
 enum QwerkyConnectionState {

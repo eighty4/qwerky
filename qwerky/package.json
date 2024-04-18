@@ -12,10 +12,10 @@
     "debug:watch": "QWERKY_BROWSER_DEBUG=true node --watch lib/Qwerky.js"
   },
   "dependencies": {
-    "qwerky-api": "workspace:*"
+    "@eighty4/qwerky-api": "workspace:*"
   },
   "devDependencies": {
-    "@types/node": "20.12.5",
-    "typescript": "5.4.4"
+    "@types/node": "20.12.7",
+    "typescript": "5.4.5"
   }
 }

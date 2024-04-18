@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type {Rect} from 'qwerky-contract'
+    import type {Rect} from '@eighty4/qwerky-contract'
 
     interface BoundingBoxProps {
         color: string

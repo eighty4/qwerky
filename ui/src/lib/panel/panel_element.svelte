@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type {Element} from 'qwerky-contract'
+    import type {Element} from '@eighty4/qwerky-contract'
     import TagName from '$lib/panel/tag_name.svelte'
 
     interface PanelElementProps {
