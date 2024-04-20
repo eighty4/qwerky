@@ -4,10 +4,11 @@
     import PanelElement from '$lib/panel/panel_element.svelte'
 
     interface AppPanelProps {
+        highlightPalette: Array<string>
         inspectResult: InspectResult | null
     }
 
-    let {inspectResult}: AppPanelProps = $props()
+    let {highlightPalette, inspectResult}: AppPanelProps = $props()
 </script>
 
 <aside>
@@ -21,7 +22,7 @@
         </div>
         {#each inspectResult.elements as element, i}
             <div class="element-container">
-                <PanelElement color={getIndexedColor(i)} element={element}/>
+                <PanelElement color={highlightPalette[i]} element={element}/>
             </div>
             <div class="divider" style="--highlight-color: {getIndexedColor(i)}"></div>
         {/each}

@@ -9,6 +9,7 @@
     import Header from '$lib/header/qwerky_header.svelte'
     import Panel from '$lib/panel/app_panel.svelte'
     import PageImage from '$lib/page/open_page.svelte'
+    import {getColorPalette} from '$lib/data/colors'
 
     let qwerkyClient: QwerkyClient | null = $state(null)
     let pageLoading: boolean = $state(false)
@@ -25,6 +26,7 @@
     })
     let inspectResult: InspectResult | null = $state(null)
     let boundingBoxes: Array<BoundingBox> | null = $derived.by(() => buildBoundingBoxes(focusedInspect?.elements))
+    let highlightPalette: Array<string> = $derived.by(() => getColorPalette(boundingBoxes?.length || 0))
 
     onMount(() => QwerkyClient.connect({
         onImageData(base64, size: Size) {
@@ -72,12 +74,13 @@
         <PageImage imageBase64={currentPageImage.base64}
                    imageSize={currentPageImage.size}
                    boundingBoxes={boundingBoxes}
+                   highlightPalette={highlightPalette}
                    on:inspectPoint={onInspectPoint}/>
     {/if}
 {/if}
 
 <Header pageLoading={pageLoading} url={url}/>
-<Panel inspectResult={focusedInspect}/>
+<Panel highlightPalette={highlightPalette} inspectResult={focusedInspect}/>
 <Footer/>
 
 <!-- todo offsetting stacked highlights to not overlap requires extending highlight buffer by highlight count -->

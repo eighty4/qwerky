@@ -6,11 +6,12 @@
 
     interface OpenPageProps {
         boundingBoxes: Array<BoundingBox> | null
+        highlightPalette: Array<string>
         imageBase64: string
         imageSize: Size
     }
 
-    let {boundingBoxes, imageBase64, imageSize}: OpenPageProps = $props()
+    let {boundingBoxes, highlightPalette, imageBase64, imageSize}: OpenPageProps = $props()
 
     const dispatch = createEventDispatcher<{ inspectPoint: Point }>()
 
@@ -92,7 +93,7 @@
 
     {#if boundingBoxes}
         {#each boundingBoxes.reverse() as boundingBox, i}
-            <ElementHighlight color={boundingBox.color} index={i} rect={boundingBox.rect}/>
+            <ElementHighlight color={highlightPalette[boundingBoxes.length - 1 - i]} boundingBox={boundingBox}/>
         {/each}
     {/if}
 </div>

@@ -7,7 +7,21 @@ const colors = [
     '#fb33db',
     '#fa002e',
     '#0310ea',
+    '#333',
+    '#ccc',
+    '#333',
+    '#ccc',
+    '#333',
+    '#ccc',
+    '#333',
+    '#ccc',
+    '#333',
+    '#ccc',
 ]
+
+export function getColorPalette(n: number): Array<string> {
+    return n === 0 ? [] : colors.slice(0, n)
+}
 
 export function getIndexedColor(i: number): string {
     return colors[Math.min(i, colors.length - 1)]

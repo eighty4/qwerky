@@ -1,22 +1,31 @@
 <script lang="ts">
-    import type {Rect} from '@eighty4/qwerky-contract'
+    import type {BoundingBox} from '$lib/data/BoundingBox'
 
     interface BoundingBoxProps {
+        boundingBox: BoundingBox
         color: string
-        index: number
-        rect: Rect
     }
 
-    let {color, index, rect}: BoundingBoxProps = $props()
+    let {boundingBox, color}: BoundingBoxProps = $props()
 
     let hover: boolean = $state(false)
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 
-<div class="highlight-{index}"
+<div class="highlight"
      class:hover
-     style="--highlight-color: {color}; --element-x: {rect.x}; --element-y: {rect.y}; --element-w: {rect.w}; --element-h: {rect.h};"
+     style="
+        --highlight-color: {color};
+        --element-x: {boundingBox.rect.x};
+        --element-y: {boundingBox.rect.y};
+        --element-w: {boundingBox.rect.w};
+        --element-h: {boundingBox.rect.h};
+        --stacked-x: {boundingBox.stacked.x};
+        --stacked-y: {boundingBox.stacked.y};
+        --stacked-w: {boundingBox.stacked.w};
+        --stacked-h: {boundingBox.stacked.h};
+     "
      onfocus={() => hover = true}
      onblur={() => hover = false}
      onmouseover={() => {hover = true; return true}}
@@ -24,14 +33,14 @@
 </div>
 
 <style>
-    div {
+    .highlight {
         pointer-events: none;
         z-index: var(--page-highlight-z-index);
         position: absolute;
         border: var(--highlight-width) solid var(--highlight-color);
-        top: calc(var(--page-scroll-y) + (var(--page-scale-ar) * var(--element-y)) - var(--highlight-width));
-        left: calc(var(--page-scale-ar) * var(--element-x) - var(--highlight-width));
-        width: calc(var(--page-scale-ar) * var(--element-w));
-        aspect-ratio: var(--element-w, 1) / var(--element-h, 1);
+        top: calc((var(--page-scale-ar) * var(--element-y)) - (var(--highlight-width) * var(--stacked-y)) + var(--page-scroll-y));
+        left: calc((var(--page-scale-ar) * var(--element-x)) - (var(--highlight-width) * var(--stacked-x)));
+        width: calc((var(--page-scale-ar) * var(--element-w)) - (var(--highlight-width) * var(--stacked-w)));
+        height: calc((var(--page-scale-ar) * var(--element-h)) - (var(--highlight-width) * var(--stacked-h)));
     }
 </style>
