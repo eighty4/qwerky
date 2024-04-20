@@ -80,7 +80,7 @@
 {/if}
 
 <Header pageLoading={pageLoading} url={url}/>
-<Panel highlightPalette={highlightPalette} inspectResult={focusedInspect}/>
+<Panel focusedInspectIndex={focusedInspectIndex} highlightPalette={highlightPalette} inspectResults={inspectResults}/>
 <Footer/>
 
 <!-- todo offsetting stacked highlights to not overlap requires extending highlight buffer by highlight count -->

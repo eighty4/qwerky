@@ -22,7 +22,3 @@ const colors = [
 export function getColorPalette(n: number): Array<string> {
     return n === 0 ? [] : colors.slice(0, n)
 }
-
-export function getIndexedColor(i: number): string {
-    return colors[Math.min(i, colors.length - 1)]
-}
