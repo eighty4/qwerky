@@ -5,13 +5,13 @@
 	"license": "BSD-3-Clause",
 	"type": "module",
 	"scripts": {
-		"dev": "vite dev",
 		"build": "svelte-kit sync && vite build",
-		"preview": "vite preview",
-		"test": "pnpm exec playwright test",
-		"test:ui": "pnpm exec playwright test --ui",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
+		"dev": "vite dev",
+		"preview": "vite preview",
+		"test:e2e": "playwright test",
+		"test:e2e:ui": "playwright test --ui",
+		"test:unit": "vitest run"
 	},
 	"dependencies": {
 		"@eighty4/qwerky-contract": "workspace:*",
@@ -28,6 +28,7 @@
 		"svelte-check": "3.6.9",
 		"tslib": "2.6.2",
 		"typescript": "5.4.5",
-		"vite": "5.2.9"
+		"vite": "5.2.9",
+		"vitest": "1.5.0"
 	}
 }
