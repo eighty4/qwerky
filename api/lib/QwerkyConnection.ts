@@ -1,6 +1,12 @@
 import {EventEmitter} from 'node:events'
 import WebSocket from 'ws'
-import {type ApiRequest, type ApiResponse, InspectPoint, InspectSelector} from '@eighty4/qwerky-contract'
+import {
+    ApiMessageError,
+    type ApiRequest,
+    type ApiResponse,
+    InspectPoint,
+    InspectSelector,
+} from '@eighty4/qwerky-contract'
 import type {QwerkyPage, QwerkyPageProvider} from './QwerkyPage.js'
 
 enum QwerkyConnectionState {
@@ -32,43 +38,49 @@ export class QwerkyConnection extends EventEmitter {
         if (!this.isActive()) {
             return
         }
-        const msg = JSON.parse(json)
-        console.log('ws recv', msg)
-        this.handleWsMessage(msg)
+        const apiRequest: ApiRequest = JSON.parse(json)
+        console.log('ws recv', apiRequest)
+        this.handleWsMessage(apiRequest)
             .then(this.handleWsMessageResult)
-            .catch(e => console.log('error handling msg', e.message, msg))
+            .catch((e) => {
+                console.log(e)
+                console.log(Object.keys(e))
+                console.log('error handling msg', e.message, apiRequest)
+                if (process.env.NODE_ENV !== 'production') {
+                    this.handleWsMessageResult(new ApiMessageError(apiRequest.sessionId, e.message))
+                }
+            })
     }
 
-    private async handleWsMessage(msg: ApiRequest): Promise<ApiResponse> {
-        switch (msg.messageType) {
+    private async handleWsMessage(apiRequest: ApiRequest): Promise<ApiResponse> {
+        switch (apiRequest.messageType) {
             case 'open':
-                return this.openPage(msg.sessionId, msg.url)
+                return this.openPage(apiRequest.sessionId, apiRequest.url)
             case 'inspect':
                 if (this.page) {
-                    if (msg['point']) return this.page.inspectPoint((msg as InspectPoint).point)
-                    if (msg['selector']) return this.page.inspectSelector((msg as InspectSelector).selector)
+                    if (apiRequest['point']) return this.page.inspectPoint((apiRequest as InspectPoint).point)
+                    if (apiRequest['selector']) return this.page.inspectSelector((apiRequest as InspectSelector).selector)
                 }
                 throw new Error('bad inspect msg')
             default:
-                throw new Error(`bad msg type ${msg['type']}`)
+                throw new Error(`bad msg type ${apiRequest['type']}`)
         }
     }
 
-    private handleWsMessageResult = (result: ApiResponse) => {
-        if (this.isActive() && result) {
-            console.log('ws send', result.messageType)
-            if (result.messageType === 'image') {
+    private handleWsMessageResult = (apiResponse: ApiResponse) => {
+        if (this.isActive() && apiResponse) {
+            if (apiResponse.messageType === 'image') {
                 // todo image data should be sent as a binary buffer and not a base64 str
                 console.log('ws send', {
-                    messageType: result.messageType,
-                    size: result.size,
-                    sessionId: result.sessionId,
+                    messageType: apiResponse.messageType,
+                    size: apiResponse.size,
+                    sessionId: apiResponse.sessionId,
                     image: 'ZGVzcGVyYWRvcw==',
                 })
             } else {
-                console.log('ws send', result)
+                console.log('ws send', apiResponse)
             }
-            this.ws.send(JSON.stringify(result))
+            this.ws.send(JSON.stringify(apiResponse))
         }
     }
 

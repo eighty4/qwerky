@@ -56,6 +56,9 @@ export class QwerkyClient {
     private handleMessage(msg: ApiResponse) {
         console.log('ws recv', msg)
         switch (msg.messageType) {
+            case 'api-msg-error':
+                document.body.innerHTML = `<p>${msg.errorMessage}</p>`
+                break
             case 'image':
                 msg = (msg as PageOpenedData)
                 this.messageHandler.onImageData(msg.image, msg.size)

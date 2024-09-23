@@ -25,11 +25,11 @@ export class Size {
 
 export type ApiRequest = OpenPage | InspectPoint | InspectSelector
 
-export type ApiResponse = PageOpenedData | InspectPointData | InspectSelectorData
+export type ApiResponse = ApiMessageError | PageOpenedData | InspectPointData | InspectSelectorData
 
 export type ApiRequestMessageType = 'open' | 'inspect'
 
-export type ApiResponseMessageType = 'image' | 'describe'
+export type ApiResponseMessageType = 'api-msg-error' | 'image' | 'describe'
 
 export type ApiMessageType = ApiRequestMessageType | ApiResponseMessageType
 
@@ -56,6 +56,13 @@ export class InspectSelector implements ApiMessageBase {
     readonly messageType = 'inspect'
 
     constructor(readonly sessionId: string, readonly selector: string) {
+    }
+}
+
+export class ApiMessageError implements ApiMessageBase {
+    readonly messageType = 'api-msg-error'
+
+    constructor(readonly sessionId: string, readonly errorMessage: string) {
     }
 }
 
