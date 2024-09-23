@@ -6,7 +6,7 @@
   "bin": "lib/Qwerky.js",
   "scripts": {
     "build": "tsc --build",
-    "build:watch": "tsc --build --watch",
+    "build:watch": "pnpm build --watch",
     "start": "node lib/Qwerky.js",
     "start:watch": "node --watch lib/Qwerky.js",
     "debug:watch": "QWERKY_BROWSER_DEBUG=true node --watch lib/Qwerky.js"
