@@ -1,5 +1,4 @@
 <script lang="ts">
-    import {createEventDispatcher} from 'svelte'
     import {Point, type Size} from '@eighty4/qwerky-contract'
     import type {BoundingBox} from '$lib/data/BoundingBox'
     import ElementHighlight from './element_highlight.svelte'
@@ -9,11 +8,10 @@
         highlightPalette: Array<string>
         imageBase64: string
         imageSize: Size
+        onInspectPoint: (point: Point) => void
     }
 
-    let {boundingBoxes, highlightPalette, imageBase64, imageSize}: OpenPageProps = $props()
-
-    const dispatch = createEventDispatcher<{ inspectPoint: Point }>()
+    let {boundingBoxes, highlightPalette, imageBase64, imageSize, onInspectPoint}: OpenPageProps = $props()
 
     let imageSrc = $derived('data:image/png;base64,' + imageBase64)
 
@@ -46,7 +44,7 @@
         }
         const clickY = Math.floor((viewportClickY / imageScaledHeight) * imageSize.height)
         const clickX = Math.floor((e.offsetX * imageSize.width) / pageElem.clientWidth)
-        dispatch('inspectPoint', new Point(clickX, clickY))
+        onInspectPoint(new Point(clickX, clickY))
     }
 
     function onMouseMove(e: MouseEvent) {
@@ -78,7 +76,7 @@
     }
 </script>
 
-<!-- svelte-ignore a11y-click-events-have-key-events a11y-mouse-events-have-key-events a11y-no-noninteractive-element-interactions -->
+<!-- svelte-ignore a11y_click_events_have_key_events, a11y_mouse_events_have_key_events, a11y_no_noninteractive_element_interactions -->
 
 <div id="page"
      class:panning={panning}

@@ -53,29 +53,29 @@
         focusedInspectIndex++
     }
 
-    function onUrl(event: CustomEvent<string>) {
+    function onUrl(_url: string) {
         pageLoading = true
-        url = event.detail
+        url = _url
         console.log(JSON.stringify(url))
         qwerkyClient!.sendMessage(new OpenPage(qwerkyClient!.sessionId, url))
     }
 
-    function onInspectPoint(event: CustomEvent<Point>) {
+    function onInspectPoint(point: Point) {
         inspectResult = null
-        console.log(JSON.stringify(event.detail))
-        qwerkyClient!.sendMessage(new InspectPoint(qwerkyClient!.sessionId, event.detail))
+        console.log(JSON.stringify(point))
+        qwerkyClient!.sendMessage(new InspectPoint(qwerkyClient!.sessionId, point))
     }
 </script>
 
 {#if qwerkyClient}
     {#if !url}
-        <UrlForm on:url={onUrl}/>
+        <UrlForm onUrl={onUrl}/>
     {:else if currentPageImage !== null}
         <PageImage imageBase64={currentPageImage.base64}
                    imageSize={currentPageImage.size}
                    boundingBoxes={boundingBoxes}
                    highlightPalette={highlightPalette}
-                   on:inspectPoint={onInspectPoint}/>
+                   onInspectPoint={onInspectPoint}/>
     {/if}
 {/if}
 

@@ -1,7 +1,9 @@
 <script lang="ts">
-    import {createEventDispatcher} from 'svelte'
+    interface UrlFormProps {
+        onUrl: (url: string) => void
+    }
 
-    const dispatch = createEventDispatcher<{ url: string }>()
+    const {onUrl}: UrlFormProps = $props()
 
     let url: string = $state('')
     let sentToApi: boolean = $state(false)
@@ -18,12 +20,12 @@
                 url = 'https://' + url
             }
             sentToApi = true
-            dispatch('url', url)
+            onUrl(url)
         }
     }
 </script>
 
-<!-- svelte-ignore a11y-autofocus -->
+<!-- svelte-ignore a11y_autofocus -->
 
 <div class="form-window">
     <div class="form-content">
