@@ -13,9 +13,13 @@
 
     let {boundingBoxes, highlightPalette, imageBase64, imageSize, onInspectPoint}: OpenPageProps = $props()
 
-    let imageSrc = $derived('data:image/png;base64,' + imageBase64)
-
     let pageElem: HTMLDivElement
+
+    $effect(() => {
+        pageElem.style.backgroundImage = `url('data:image/png;base64,${imageBase64}')`
+        pageElem.style.setProperty('--page-img-w', String(imageSize.width))
+        pageElem.style.setProperty('--page-img-h', String(imageSize.height))
+    })
 
     let panning: boolean = $state(false)
     let mouseDownY: false | number
@@ -81,7 +85,6 @@
 <div id="page"
      class:panning={panning}
      bind:this={pageElem}
-     style="--page-img-w: {imageSize.width}; --page-img-h: {imageSize.height}; --page-img-url: url('{imageSrc}');"
      role="img"
      onclick={onClick}
      onmousedown={onMouseDown}
@@ -108,7 +111,6 @@
         position: fixed;
         top: var(--header-height);
         left: var(--edge-width);
-        background-image: var(--page-img-url);
         background-position-y: var(--page-scroll-y);
         background-repeat: no-repeat;
         background-size: 100%;
