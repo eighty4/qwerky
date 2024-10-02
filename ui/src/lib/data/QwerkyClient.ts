@@ -1,4 +1,3 @@
-import {v4} from 'uuid'
 import {
     type ApiRequest,
     type ApiResponse,
@@ -27,7 +26,7 @@ export class QwerkyClient {
         return new Promise((res) => client.webSocket.onopen = () => res(client))
     }
 
-    readonly sessionId: string = v4()
+    readonly sessionId: string = crypto.randomUUID()
 
     constructor(private readonly webSocket: WebSocket,
                 private readonly messageHandler: QwerkyMessageHandler) {

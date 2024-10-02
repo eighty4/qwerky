@@ -14,8 +14,7 @@
 		"test:unit": "vitest run"
 	},
 	"dependencies": {
-		"@eighty4/qwerky-contract": "workspace:*",
-		"uuid": "10.0.0"
+		"@eighty4/qwerky-contract": "workspace:*"
 	},
 	"devDependencies": {
 		"@playwright/test": "1.47.2",
@@ -23,7 +22,6 @@
 		"@sveltejs/kit": "2.5.28",
 		"@sveltejs/vite-plugin-svelte": "4.0.0-next.7",
 		"@types/node": "22.7.2",
-		"@types/uuid": "10.0.0",
 		"svelte": "5.0.0-next.259",
 		"svelte-check": "4.0.2",
 		"tslib": "2.7.0",
