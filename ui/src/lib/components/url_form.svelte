@@ -59,11 +59,7 @@
         padding: 8vmin;
         width: var(--form-width);
         aspect-ratio: var(--form-aspect-ratio);
-
-        /* position */
-        position: fixed;
-        left: calc(50vw - ((var(--panel-width) + var(--form-width)) / 2));
-        top: calc(var(--header-height) + (50vh - var(--header-height) - (var(--form-height) / 2)));
+        margin: 20vh auto 0;
     }
 
     .form-content {

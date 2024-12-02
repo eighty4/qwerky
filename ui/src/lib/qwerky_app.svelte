@@ -4,12 +4,8 @@
     import {type BoundingBox, buildBoundingBoxes} from '$lib/data/BoundingBox'
     import type {InspectResult} from '$lib/data/InspectResult'
     import {QwerkyClient} from '$lib/data/QwerkyClient.js'
-    import UrlForm from '$lib/components/url_form.svelte'
-    import Footer from '$lib/footer/qwerky_footer.svelte'
-    import Header from '$lib/header/qwerky_header.svelte'
-    import Panel from '$lib/panel/app_panel.svelte'
-    import PageImage from '$lib/page/open_page.svelte'
     import {getColorPalette} from '$lib/data/colors'
+    import QwerkyInterface from '$lib/qwerky_interface.svelte'
 
     let qwerkyClient: QwerkyClient | null = $state(null)
     let pageLoading: boolean = $state(false)
@@ -67,73 +63,20 @@
     }
 </script>
 
-{#if qwerkyClient}
-    {#if !url}
-        <UrlForm onUrl={onUrl}/>
-    {:else if currentPageImage !== null}
-        <PageImage imageBase64={currentPageImage.base64}
-                   imageSize={currentPageImage.size}
-                   boundingBoxes={boundingBoxes}
-                   highlightPalette={highlightPalette}
-                   onInspectPoint={onInspectPoint}/>
-    {/if}
-{/if}
-
-<Header pageLoading={pageLoading} url={url}/>
-<Panel focusedInspectIndex={focusedInspectIndex} highlightPalette={highlightPalette} inspectResults={inspectResults}/>
-<Footer/>
-
-<!-- todo offsetting stacked highlights to not overlap requires extending highlight buffer by highlight count -->
-<div class="hb t"></div>
-<div class="hb l"></div>
-<div class="hb b"></div>
-<div class="hb r"></div>
+<QwerkyInterface boundingBoxes={boundingBoxes}
+                 currentPageImage={currentPageImage}
+                 focusedInspectIndex={focusedInspectIndex}
+                 highlightPalette={highlightPalette}
+                 inspectResults={inspectResults}
+                 onInspectPoint={onInspectPoint}
+                 onUrl={onUrl}
+                 pageLoading={pageLoading}
+                 url={url}/>
 
 <style>
     :root {
-        --header-height: 4rem;
-        --edge-width: 2rem;
         --panel-width: max(25vw, 20rem);
-        --footer-height: 4rem;
         --highlight-width: 3px;
         --panel-bg-color: rgba(0 0 0 / 93%);
-        --app-ui-z-index: 5;
-        --page-highlight-z-index: 4;
-        --page-img-z-index: 2;
-        --panel-bg-z-index: 1;
-    }
-
-    .hb {
-        background: var(--panel-bg-color);
-        position: fixed;
-        z-index: var(--panel-bg-z-index);
-    }
-
-    .hb.t {
-        height: var(--highlight-width);
-        top: calc(var(--header-height) - var(--highlight-width));
-        left: 0;
-        right: 0;
-    }
-
-    .hb.l {
-        top: var(--header-height);
-        left: 0;
-        bottom: var(--footer-height);
-        width: var(--edge-width);
-    }
-
-    .hb.b {
-        height: var(--highlight-width);
-        bottom: calc(var(--footer-height) - var(--highlight-width));
-        left: 0;
-        right: 0;
-    }
-
-    .hb.r {
-        top: var(--header-height);
-        right: calc(var(--panel-width) - var(--highlight-width));
-        bottom: var(--footer-height);
-        width: var(--highlight-width);
     }
 </style>

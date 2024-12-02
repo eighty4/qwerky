@@ -35,7 +35,6 @@
 <style>
     .highlight {
         pointer-events: none;
-        z-index: var(--page-highlight-z-index);
         position: absolute;
         border: var(--highlight-width) solid var(--highlight-color);
         top: calc((var(--page-scale-ar) * var(--element-y)) - (var(--highlight-width) * var(--stacked-y)) + var(--page-scroll-y));

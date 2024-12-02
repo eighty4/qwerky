@@ -108,17 +108,13 @@
         --page-scaled-w: var(--page-viewport-w);
         --page-scaled-h: calc((var(--page-viewport-w) / var(--page-img-w)) * var(--page-img-h));
         --page-scroll-y: 0px;
-        position: fixed;
-        top: var(--header-height);
-        left: var(--edge-width);
         background-position-y: var(--page-scroll-y);
         background-repeat: no-repeat;
         background-size: 100%;
-        height: var(--page-viewport-h);
-        width: var(--page-viewport-w);
+        height: 100%;
+        width: 100%;
         user-select: none;
         cursor: grab;
-        z-index: var(--page-img-z-index);
     }
 
     #page.panning {

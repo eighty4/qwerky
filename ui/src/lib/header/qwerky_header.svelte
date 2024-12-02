@@ -50,18 +50,13 @@
 
 <style>
     header {
-        position: fixed;
-        height: calc(var(--header-height) - var(--highlight-width));
-        top: 0;
-        left: 0;
-        right: 0;
+        height: 100%;
 
         display: flex;
         align-items: center;
 
         background: var(--panel-bg-color);
         padding: 0 4rem;
-        z-index: var(--app-ui-z-index);
     }
 
     .space {
@@ -121,7 +116,7 @@
     }
 
     h2 img {
-        height: calc(var(--header-height) * .5);
+        height: 2rem;
         aspect-ratio: 1 / 1;
     }
 

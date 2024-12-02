@@ -8,13 +8,9 @@
 
 <style>
     footer {
-        position: fixed;
-        height: calc(var(--footer-height) - var(--highlight-width));
-        right: 0;
-        left: 0;
-        bottom: 0;
+        height: 100%;
+        width: 100%;
         background: var(--panel-bg-color);
-        z-index: var(--app-ui-z-index);
 
         display: flex;
         justify-content: center;
@@ -31,6 +27,6 @@
     }
 
     img {
-        height: calc(var(--footer-height) * .5);
+        height: 2rem;
     }
 </style>

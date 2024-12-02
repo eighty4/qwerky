@@ -19,13 +19,9 @@
 
 <style>
     aside {
-        position: fixed;
-        width: calc(var(--panel-width) - var(--highlight-width));
-        top: var(--header-height);
-        right: 0;
-        bottom: var(--footer-height);
+        height: 100%;
+        width: 100%;
         background: var(--panel-bg-color);
-        z-index: var(--app-ui-z-index);
         box-sizing: border-box;
         padding: 2rem;
     }
